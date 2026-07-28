@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donate — Warehouse 317</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .tier-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:22px; }
+  @media (max-width:700px){ .tier-grid{ grid-template-columns:repeat(3,1fr); } }
+  .tier-btn{
+    padding:16px 8px; text-align:center; border:1.5px solid #ddd2ba; border-radius:5px; background:#fdfaf3;
+    font-family:var(--font-heading); font-size:1rem; cursor:pointer; color:var(--w317-charcoal);
+  }
+  .tier-btn.selected{ border-color:var(--w317-brick); background:rgba(168,70,47,0.08); color:var(--w317-brick); }
+  .freq-toggle{ display:flex; gap:8px; margin-bottom:22px; background:#efe6d3; padding:5px; border-radius:6px; }
+  .freq-toggle button{ flex:1; padding:10px; border:none; background:transparent; border-radius:4px; cursor:pointer; font-family:var(--font-heading); font-size:.82rem; text-transform:uppercase; letter-spacing:.03em; color:var(--w317-steel-dark); }
+  .freq-toggle button.active{ background:#fff; color:var(--w317-brick); box-shadow:0 1px 4px rgba(0,0,0,0.12); }
+  .breakdown-bar{ height:14px; border-radius:20px; overflow:hidden; display:flex; margin-bottom:14px; }
+  .give-way{ display:flex; gap:16px; align-items:flex-start; padding:20px 0; border-bottom:1px solid rgba(28,23,18,0.08); }
+  .give-way:last-child{ border-bottom:none; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">
+      <span class="mark">W</span>
+      <span>Warehouse 317<span class="sub">Manchester &middot; Richmond, VA</span></span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="donate.html" class="active">Donate</a></li>
+      <li><a href="volunteer.html">Volunteer</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="vendors.html">Vendors</a></li>
+      <li><a href="rentals.html">Rent The Space</a></li>
+      <li><a href="odins-underground.html">Odin's Underground</a></li>
+      <li><a href="team.html">Board &amp; Staff</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="donate.html" class="btn btn-primary btn-sm">Donate</a>
+      <a href="portal-login.html" class="btn btn-outline btn-sm on-dark">Member Portal</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" style="min-height:48vh; display:flex; align-items:center;">
+  <div class="hero-bg"></div>
+  <div class="hero-inner on-dark" style="padding-top:120px; padding-bottom:60px;">
+    <div class="eyebrow">501(c)(3) Nonprofit &middot; EIN 88-1234567</div>
+    <h1 class="display-xl">Support The<br>Warehouse</h1>
+    <p class="lede">Warehouse 317 Collective is a registered nonprofit — every dollar goes back into free and low-cost community programming, mutual aid, and keeping a hundred-year-old building standing. Your gift is tax-deductible.</p>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container">
+    <div class="grid grid-4" style="text-align:center;">
+      <div><div style="font-family:var(--font-display); font-size:2.2rem; color:var(--w317-brick);">1,200+</div><div class="pill" style="margin-top:6px;">Community Meals Served</div></div>
+      <div><div style="font-family:var(--font-display); font-size:2.2rem; color:var(--w317-brick);">3,400</div><div class="pill" style="margin-top:6px;">Volunteer Hours (YTD)</div></div>
+      <div><div style="font-family:var(--font-display); font-size:2.2rem; color:var(--w317-brick);">15+</div><div class="pill" style="margin-top:6px;">Resident Businesses Supported</div></div>
+      <div><div style="font-family:var(--font-display); font-size:2.2rem; color:var(--w317-brick);">60+</div><div class="pill" style="margin-top:6px;">Free &amp; Low-Cost Events / Year</div></div>
+    </div>
+    <p class="form-note" style="text-align:center; margin-top:18px;">Impact numbers are placeholders for this mockup — swap in your real figures.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid-2" style="gap:60px; align-items:flex-start;">
+    <div>
+      <div class="eyebrow">Where It Goes</div>
+      <h2 class="display-lg">Every Dollar, Accounted For</h2>
+      <p class="lede">We run lean on purpose. Here's roughly how your donation gets put to work.</p>
+
+      <div style="margin-top:30px;">
+        <div class="breakdown-bar">
+          <div style="width:45%; background:var(--w317-brick);"></div>
+          <div style="width:25%; background:var(--w317-amber);"></div>
+          <div style="width:20%; background:var(--w317-steel);"></div>
+          <div style="width:10%; background:var(--w317-steel-dark);"></div>
+        </div>
+        <div class="grid grid-2" style="gap:12px 20px;">
+          <div class="flex items-center gap-12"><span style="width:12px; height:12px; border-radius:3px; background:var(--w317-brick); display:inline-block;"></span><span style="font-size:.9rem;">45% Programming &amp; Events</span></div>
+          <div class="flex items-center gap-12"><span style="width:12px; height:12px; border-radius:3px; background:var(--w317-amber); display:inline-block;"></span><span style="font-size:.9rem;">25% Mutual Aid Fund</span></div>
+          <div class="flex items-center gap-12"><span style="width:12px; height:12px; border-radius:3px; background:var(--w317-steel); display:inline-block;"></span><span style="font-size:.9rem;">20% Building &amp; Facilities</span></div>
+          <div class="flex items-center gap-12"><span style="width:12px; height:12px; border-radius:3px; background:var(--w317-steel-dark); display:inline-block;"></span><span style="font-size:.9rem;">10% Operations</span></div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="eyebrow">Other Ways To Give</div>
+      <div class="give-way">
+        <div>
+          <h3 style="font-size:1.02rem; margin-bottom:4px;">Volunteer Your Time</h3>
+          <p style="color:var(--w317-steel); font-size:.92rem; margin:0;">Hands-on help is worth as much as a check. <a href="volunteer.html" style="color:var(--w317-brick); text-decoration:underline;">See volunteer roles</a>.</p>
+        </div>
+      </div>
+      <div class="give-way">
+        <div>
+          <h3 style="font-size:1.02rem; margin-bottom:4px;">In-Kind Donations</h3>
+          <p style="color:var(--w317-steel); font-size:.92rem; margin:0;">Tools, building materials, kitchen supplies, and event equipment always welcome.</p>
+        </div>
+      </div>
+      <div class="give-way">
+        <div>
+          <h3 style="font-size:1.02rem; margin-bottom:4px;">Corporate Sponsorship</h3>
+          <p style="color:var(--w317-steel); font-size:.92rem; margin:0;">Sponsor an event or season. Contact our Board Treasurer to talk details.</p>
+        </div>
+      </div>
+      <div class="give-way">
+        <div>
+          <h3 style="font-size:1.02rem; margin-bottom:4px;">Planned &amp; Legacy Giving</h3>
+          <p style="color:var(--w317-steel); font-size:.92rem; margin:0;">Include Warehouse 317 in your estate planning — ask us for language to share with your attorney.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card" style="position:sticky; top:100px;">
+      <h3 style="margin-bottom:18px;">Make A Gift</h3>
+      <div class="freq-toggle">
+        <button type="button" class="active" data-freq="once">One-Time</button>
+        <button type="button" data-freq="monthly">Monthly</button>
+      </div>
+      <div class="tier-grid">
+        <button type="button" class="tier-btn">$25</button>
+        <button type="button" class="tier-btn selected">$50</button>
+        <button type="button" class="tier-btn">$100</button>
+        <button type="button" class="tier-btn">$250</button>
+        <button type="button" class="tier-btn">Other</button>
+      </div>
+      <form data-mock>
+        <div class="field"><label>Amount (USD)</label><input type="text" value="$50" id="donateAmount"></div>
+        <div class="field"><label>Full Name</label><input type="text" required></div>
+        <div class="field"><label>Email</label><input type="email" required></div>
+        <div class="checkbox-group">
+          <label><input type="checkbox"> Make this gift in memory or honor of someone</label>
+          <label><input type="checkbox"> Keep my donation anonymous</label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Continue To Secure Payment</button>
+        <p class="form-note">This is a design mockup — no payment is processed. A live site would connect this step to a real processor (Stripe, Donorbox, etc).</p>
+      </form>
+      <div class="form-success" style="display:none; text-align:center; padding:20px 0;">
+        <h3>Thank you!</h3>
+        <p>In a live version of this site, you'd be taken to a secure payment step here. Warehouse 317 Collective is a 501(c)(3) — your gift would be tax-deductible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight texture on-dark">
+  <div class="container" style="text-align:center;">
+    <div class="eyebrow" style="justify-content:center;">Questions About Giving?</div>
+    <h2 class="display-lg">Talk To Our Board Treasurer</h2>
+    <p class="lede" style="margin:0 auto 30px;">Corporate sponsorships, in-kind gifts, or planned giving — reach out any time.</p>
+    <a href="team.html" class="btn btn-amber">Meet The Board</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="brand" style="margin-bottom:14px;"><span class="mark">W</span><span>Warehouse 317</span></div>
+        <p style="max-width:32ch; font-size:.92rem;">A community warehouse in Old Town Manchester — creative expression and mutual aid under one roof, 317 Hull St, Richmond, VA 23224.</p>
+      </div>
+      <div>
+        <h4>Visit</h4>
+        <ul>
+          <li><a href="events.html">Events Calendar</a></li>
+          <li><a href="rentals.html">Rent The Space</a></li>
+          <li><a href="odins-underground.html">Odin's Underground</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Community</h4>
+        <ul>
+          <li><a href="donate.html">Donate</a></li>
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="vendors.html">Vendors</a></li>
+          <li><a href="team.html">Board &amp; Staff</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Portal</h4>
+        <ul>
+          <li><a href="portal-login.html">Member Login</a></li>
+          <li><a href="portal-dashboard.html">Dashboard Preview</a></li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:.8rem; color:var(--w317-steel); max-width:64ch; margin-bottom:20px;">Warehouse 317 Collective is a registered 501(c)(3) nonprofit organization. EIN 88-1234567. Donations are tax-deductible to the extent allowed by law.</p>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Warehouse 317 Collective. Design mockup — not a live business.</span>
+      <span>317 Hull St, Richmond, VA 23224</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  const tierBtns = document.querySelectorAll('.tier-btn');
+  const amountField = document.getElementById('donateAmount');
+  tierBtns.forEach(btn => btn.addEventListener('click', () => {
+    tierBtns.forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    if (btn.textContent.trim() !== 'Other') amountField.value = btn.textContent.trim();
+    else { amountField.value = ''; amountField.focus(); }
+  }));
+  const freqBtns = document.querySelectorAll('.freq-toggle button');
+  freqBtns.forEach(btn => btn.addEventListener('click', () => {
+    freqBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }));
+</script>
+</body>
+</html>

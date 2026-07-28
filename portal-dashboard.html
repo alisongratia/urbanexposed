@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hub — Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .app-shell{ display:grid; grid-template-columns:250px 1fr; min-height:100vh; background:var(--w317-cream); }
+  .app-sidebar{
+    background: var(--w317-charcoal); color:var(--w317-cream-dim); padding:26px 20px;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .app-sidebar a{
+    display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:6px;
+    font-family:var(--font-heading); font-size:.88rem; letter-spacing:.02em; color:var(--w317-cream-dim);
+  }
+  .app-sidebar a.active, .app-sidebar a:hover{ background:rgba(235,163,60,0.14); color:var(--w317-amber); }
+  .app-sidebar .sec-label{ font-size:.68rem; text-transform:uppercase; letter-spacing:.12em; color:var(--w317-steel); margin:20px 14px 6px; }
+  @media (max-width:860px){
+    .app-shell{ grid-template-columns:1fr; }
+    .app-sidebar{ flex-direction:row; flex-wrap:wrap; gap:4px; padding:16px; align-items:center; }
+    .app-sidebar .brand{ width:100%; margin-bottom:6px !important; }
+    .app-sidebar a{ padding:7px 12px; font-size:.78rem; }
+    .app-sidebar .sec-label{ display:none; }
+  }
+  .app-main{ padding:38px 40px; }
+  @media (max-width:600px){ .app-main{ padding:24px 18px; } }
+  .app-topbar{ display:flex; justify-content:space-between; align-items:center; margin-bottom:34px; flex-wrap:wrap; gap:14px; }
+  .user-chip{ display:flex; align-items:center; gap:12px; }
+  .user-chip img{ width:42px; height:42px; border-radius:50%; object-fit:cover; }
+  .stat-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-bottom:36px; }
+  @media (max-width:760px){ .stat-row{ grid-template-columns:1fr 1fr; } }
+  .stat-card{ background:#fff; border:1px solid rgba(28,23,18,0.08); border-radius:6px; padding:20px; }
+  .stat-card .n{ font-family:var(--font-display); font-size:2rem; color:var(--w317-brick); }
+  .stat-card .l{ font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:var(--w317-steel); }
+  .panel{ background:#fff; border:1px solid rgba(28,23,18,0.08); border-radius:6px; padding:26px; margin-bottom:26px; }
+  .panel-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+  .booking-row{ display:flex; align-items:center; gap:16px; padding:14px 0; border-bottom:1px solid rgba(28,23,18,0.07); }
+  .booking-row:last-child{ border-bottom:none; }
+  .booking-date{ font-family:var(--font-heading); font-size:.8rem; background:#f1e9d8; padding:8px 12px; border-radius:5px; text-align:center; min-width:58px; color:var(--w317-brick-dark); }
+  .status-pill{ font-size:.7rem; padding:4px 10px; border-radius:20px; font-family:var(--font-heading); text-transform:uppercase; letter-spacing:.04em; }
+  .status-confirmed{ background:rgba(46,150,90,0.14); color:#2e964f; }
+  .status-pending{ background:rgba(235,163,60,0.16); color:#a5730f; }
+  .quick-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  @media (max-width:760px){ .quick-grid{ grid-template-columns:1fr 1fr; } }
+  .quick-btn{ background:#fdfaf3; border:1.5px dashed #ddd2ba; border-radius:6px; padding:20px; text-align:center; cursor:pointer; transition:border-color .15s ease; }
+  .quick-btn:hover{ border-color:var(--w317-brick); }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="app-sidebar">
+    <a href="index.html" class="brand" style="color:var(--w317-cream); margin-bottom:20px;"><span class="mark">W</span><span style="font-size:1.1rem;">The Hub</span></a>
+    <a href="portal-dashboard.html" class="active">Dashboard</a>
+    <a href="#bookings">My Bookings</a>
+    <a href="#volunteer">Volunteer Hours</a>
+    <a href="#vendor">Vendor Tools</a>
+    <a href="#account">Account</a>
+    <div class="sec-label">Explore Site</div>
+    <a href="events.html">Events Calendar</a>
+    <a href="rentals.html">Rent A Space</a>
+    <a href="odins-underground.html">Odin's Underground</a>
+    <a href="donate.html">Donate</a>
+    <div class="sec-label">Session</div>
+    <a href="portal-login.html">Log Out</a>
+  </aside>
+
+  <main class="app-main">
+    <div class="app-topbar">
+      <div>
+        <div class="eyebrow" style="margin-bottom:6px;">The Hub</div>
+        <h1 class="display-lg" style="margin-bottom:0;">Welcome back, Jordan.</h1>
+      </div>
+      <div class="user-chip">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=75" alt="Jordan Pierce">
+        <div>
+          <div style="font-family:var(--font-heading); font-size:.92rem;">Jordan Pierce</div>
+          <div style="font-size:.78rem; color:var(--w317-steel);">jordan@warehouse317.org &middot; Volunteer Coordinator</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card"><div class="n">3</div><div class="l">Upcoming Bookings</div></div>
+      <div class="stat-card"><div class="n">28</div><div class="l">Volunteer Hours (YTD)</div></div>
+      <div class="stat-card"><div class="n">2</div><div class="l">Open Vendor Tables</div></div>
+      <div class="stat-card"><div class="n">1</div><div class="l">Odin's Underground Show</div></div>
+    </div>
+
+    <div class="panel" id="bookings">
+      <div class="panel-head">
+        <h3 style="margin:0;">My Bookings</h3>
+        <button class="btn btn-primary btn-sm">+ New Booking</button>
+      </div>
+      <div class="booking-row">
+        <div class="booking-date">AUG<br>08</div>
+        <div style="flex:1;">
+          <div style="font-family:var(--font-heading); font-size:.95rem;">The Loft Studio — Skill-Share Workshop</div>
+          <div style="font-size:.82rem; color:var(--w317-steel);">2:00 PM – 5:00 PM</div>
+        </div>
+        <span class="status-pill status-confirmed">Confirmed</span>
+      </div>
+      <div class="booking-row">
+        <div class="booking-date">AUG<br>15</div>
+        <div style="flex:1;">
+          <div style="font-family:var(--font-heading); font-size:.95rem;">Odin's Underground — Late Night Vinyl Set</div>
+          <div style="font-size:.82rem; color:var(--w317-steel);">Ticket &middot; General Admission</div>
+        </div>
+        <span class="status-pill status-confirmed">Confirmed</span>
+      </div>
+      <div class="booking-row">
+        <div class="booking-date">SEP<br>02</div>
+        <div style="flex:1;">
+          <div style="font-family:var(--font-heading); font-size:.95rem;">Main Floor — Private Birthday Rental</div>
+          <div style="font-size:.82rem; color:var(--w317-steel);">6:00 PM – 11:00 PM</div>
+        </div>
+        <span class="status-pill status-pending">Awaiting Deposit</span>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="gap:26px; align-items:start;">
+      <div class="panel" id="volunteer">
+        <div class="panel-head"><h3 style="margin:0;">Volunteer Hours</h3></div>
+        <div class="booking-row"><div style="flex:1;">Record Mixer — Setup Crew</div><div style="color:var(--w317-steel); font-size:.85rem;">3.0 hrs</div></div>
+        <div class="booking-row"><div style="flex:1;">Ready? Spaghetti! — Kitchen</div><div style="color:var(--w317-steel); font-size:.85rem;">4.5 hrs</div></div>
+        <div class="booking-row"><div style="flex:1;">Grindhouse Movie Night — Door</div><div style="color:var(--w317-steel); font-size:.85rem;">2.5 hrs</div></div>
+        <a href="volunteer.html" class="btn btn-outline btn-sm" style="margin-top:14px;">Log New Hours</a>
+      </div>
+      <div class="panel" id="vendor">
+        <div class="panel-head"><h3 style="margin:0;">Vendor Tools</h3></div>
+        <p style="color:var(--w317-steel); font-size:.92rem;">Manage your table applications, upcoming market dates, and resident invoices.</p>
+        <div class="booking-row"><div style="flex:1;">Manchester Makers Market table</div><span class="status-pill status-confirmed">Approved</span></div>
+        <div class="booking-row"><div style="flex:1;">September Record Mixer table</div><span class="status-pill status-pending">Pending</span></div>
+        <a href="vendors.html" class="btn btn-outline btn-sm" style="margin-top:14px;">Apply For Another Table</a>
+      </div>
+    </div>
+
+    <div class="panel" id="account" style="margin-top:26px;">
+      <div class="panel-head"><h3 style="margin:0;">Quick Actions</h3></div>
+      <div class="quick-grid">
+        <div class="quick-btn"><div style="font-family:var(--font-heading); font-size:.88rem;">Book The Main Floor</div></div>
+        <div class="quick-btn"><div style="font-family:var(--font-heading); font-size:.88rem;">Book The Loft Studio</div></div>
+        <div class="quick-btn"><div style="font-family:var(--font-heading); font-size:.88rem;">Book Odin's Underground</div></div>
+        <div class="quick-btn"><div style="font-family:var(--font-heading); font-size:.88rem;">Update My Profile</div></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
