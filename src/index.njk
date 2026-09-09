@@ -1,0 +1,20 @@
+---
+layout: base.njk
+title: null
+---
+<section class="hero">
+  <h1>{{ site.title }}</h1>
+  <p>{{ site.description }}</p>
+</section>
+
+<section class="grid">
+  {% for location in collections.locations %}
+  <a class="card" href="{{ location.url }}">
+    <div class="card__image" style="background-image: url('{{ location.data.coverImage }}');"></div>
+    <div class="card__body">
+      <h2 class="card__title">{{ location.data.title }}</h2>
+      <p class="card__meta">{{ location.data.type }} &middot; {{ location.data.region }}</p>
+    </div>
+  </a>
+  {% endfor %}
+</section>

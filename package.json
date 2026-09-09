@@ -1,0 +1,12 @@
+{
+  "name": "urban-exposed",
+  "version": "1.0.0",
+  "description": "Urban Exposed — a photo archive of abandoned places",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}
