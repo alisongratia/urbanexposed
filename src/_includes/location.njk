@@ -19,7 +19,8 @@ layout: base.njk
   <div class="location__gallery">
     {% for img in images %}
     <figure class="location__photo">
-      <img src="{{ img }}" alt="{{ title }} — photo {{ loop.index }}" loading="lazy">
+      <img src="{{ img.src or img }}" alt="{{ img.caption or (title + ' — photo ' + loop.index) }}" loading="lazy">
+      {% if img.caption %}<figcaption>{{ img.caption }}</figcaption>{% endif %}
     </figure>
     {% endfor %}
   </div>

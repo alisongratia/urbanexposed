@@ -182,6 +182,13 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
 }
 
+.location__photo figcaption {
+  padding: 0.6rem 0.75rem;
+  font-size: 0.82rem;
+  color: var(--ink-dim);
+  border-top: 1px solid var(--border);
+}
+
 .location__back {
   padding: 0 clamp(1rem, 4vw, 3rem) 4rem;
 }

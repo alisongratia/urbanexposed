@@ -17,19 +17,38 @@ A photo archive of abandoned places, built as a static site with [Eleventy](http
    dateExplored: 2024-01-01
    coverImage: /img/locations/your-place-slug/01.jpg
    images:
-     - /img/locations/your-place-slug/01.jpg
+     - src: /img/locations/your-place-slug/01.jpg
+       caption: "Optional note on this specific photo — what room, what stood out."
      - /img/locations/your-place-slug/02.jpg
    blurb: |
      <p>Optional writeup — history, condition, how the visit went.</p>
    ---
    ```
 
+   Each entry under `images` can be a plain path (no caption) or an object
+   with `src` and `caption` — use captions as a running field log per photo
+   as you sort through a shoot.
+
 3. That's it — the new location shows up on the home page automatically,
    newest first.
 
-The two entries already in `src/locations/` (Hollow Creek Asylum, Bellwether
-Steel Mill) are placeholders with generated sample images. Delete or replace
-them once you've added your own.
+The three entries already in `src/locations/` (Forest Haven, Hollow Creek
+Asylum, Bellwether Steel Mill) are starting points. Forest Haven has real
+field notes but placeholder images — see below. Hollow Creek and Bellwether
+are fully placeholder; delete or replace them once you've added your own.
+
+### Swapping in real photos for Forest Haven
+
+`src/locations/forest-haven.md` is already set up with captions describing
+five photos from that visit, pointing at placeholder images
+(`src/img/locations/forest-haven/01.svg` … `05.svg`). To finish it:
+
+1. Add the real photos to `src/img/locations/forest-haven/` (any filenames).
+2. Update the `coverImage` and each `images[].src` in `forest-haven.md` to
+   point at the new filenames, and swap the `.svg` placeholders for the real
+   `.jpg`/`.png` files (delete the old placeholders once replaced).
+3. Fill in the real `dateExplored` (currently a placeholder) and edit the
+   blurb/captions as you like — they're a first draft.
 
 ## Local development
 
