@@ -25,7 +25,9 @@ That's it — refresh the site and the photos appear. The first photo (alphabeti
    demolished: false
    coverImage: ""
    blurb: |
-     <p>Optional writeup — history, condition, how the visit went.</p>
+     <p>Writeup, from credible sources: when it opened, what it was/did, and
+     when and why it closed. See src/locations/forest-haven.md for the
+     standard this should follow.</p>
    ---
    ```
 
