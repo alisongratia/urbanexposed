@@ -8,6 +8,8 @@ module.exports = function (eleventyConfig) {
       .sort((a, b) => b.data.dateExplored - a.data.dateExplored);
   });
 
+  eleventyConfig.addShortcode("currentYear", () => new Date().getFullYear());
+
   eleventyConfig.addFilter("readableDate", (dateObj) => {
     if (!dateObj) return "";
     return new Date(dateObj).toLocaleDateString("en-US", {

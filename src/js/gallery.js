@@ -57,7 +57,7 @@ function openLightbox(images, startIndex) {
   const lightbox = buildLightbox();
   const scrollEl = lightbox.querySelector(".lightbox__scroll");
   scrollEl.innerHTML = images
-    .map((img, i) => `<img src="${img.url}" alt="" loading="lazy" data-lightbox-index="${i}">`)
+    .map((img, i) => `<img src="${img.url}" alt="" loading="lazy" draggable="false" data-lightbox-index="${i}">`)
     .join("");
 
   lightbox.hidden = false;
@@ -97,7 +97,7 @@ async function renderLocationGallery() {
       (img, i) => `
       <figure class="location__photo">
         <button class="location__photo-btn" type="button" data-index="${i}" aria-label="View photo larger">
-          <img src="${img.url}" alt="${slug} photo" loading="lazy">
+          <img src="${img.url}" alt="${slug} photo" loading="lazy" draggable="false">
         </button>
       </figure>`
     )
