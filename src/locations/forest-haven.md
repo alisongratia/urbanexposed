@@ -13,6 +13,4 @@ blurb: |
   v. Washington</em>, was filed on residents' behalf in 1976. A federal
   judge ordered the facility closed as part of that case; it shut for
   good on October 14, 1991, sixty-six years after it opened.</p>
-  <p>What's left: long, dark corridors, collapsed ceilings, and room after
-  room of medical furniture rusting in place.</p>
 ---
