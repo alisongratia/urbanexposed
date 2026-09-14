@@ -21,6 +21,14 @@ async function fetchLocationImages(slug) {
     });
 }
 
+function pickCover(images, coverFilename) {
+  if (coverFilename) {
+    const match = images.find((img) => img.name === coverFilename);
+    if (match) return match;
+  }
+  return images[0];
+}
+
 function buildLightbox() {
   let lightbox = document.querySelector(".lightbox");
   if (lightbox) return lightbox;
@@ -80,7 +88,8 @@ async function renderLocationGallery() {
   }
 
   if (hero) {
-    hero.style.backgroundImage = `url('${images[0].url}')`;
+    const cover = pickCover(images, hero.dataset.cover);
+    hero.style.backgroundImage = `url('${cover.url}')`;
   }
 
   gallery.innerHTML = images
@@ -108,7 +117,8 @@ async function renderCardThumbnails() {
       const slug = card.dataset.cardSlug;
       const images = await fetchLocationImages(slug);
       if (images.length > 0) {
-        card.style.backgroundImage = `url('${images[0].url}')`;
+        const cover = pickCover(images, card.dataset.cover);
+        card.style.backgroundImage = `url('${cover.url}')`;
       }
     })
   );

@@ -100,7 +100,7 @@ img { max-width: 100%; display: block; }
 }
 
 .card__image {
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 1 / 1;
   background-size: cover;
   background-position: center;
   background-color: #1a1815;

@@ -23,6 +23,7 @@ That's it — refresh the site and the photos appear. The first photo (alphabeti
    region: "General area only — no addresses or coordinates"
    dateExplored: 2024-01-01
    demolished: false
+   coverImage: ""
    blurb: |
      <p>Optional writeup — history, condition, how the visit went.</p>
    ---
@@ -31,6 +32,8 @@ That's it — refresh the site and the photos appear. The first photo (alphabeti
 3. Push that file to GitHub (on the `locations` folder you already dropped in, no code change needed there). The new location shows up on the home page automatically, newest first.
 
 Set `demolished: true` once a place has actually been torn down — that's the only time exact locations get shared, so this flips a "Demolished" tag on next to the region at the top of that location's page.
+
+By default, the cover photo (used as the hero banner and the home page card thumbnail) is just whichever uploaded file sorts first alphabetically. Set `coverImage` to a specific filename (e.g. `"IMG_5892.jpeg"`, matching a file already uploaded in that location's Supabase folder) to pin a specific photo as the cover instead.
 
 The three entries already in `src/locations/` (Forest Haven, Hollow Creek Asylum, Bellwether Steel Mill) are starting points — Forest Haven has real field notes and is waiting on real photos; Hollow Creek and Bellwether are fully placeholder text. Delete or rewrite them once you've added your own.
 
