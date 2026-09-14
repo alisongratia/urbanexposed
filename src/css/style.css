@@ -182,11 +182,25 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
 }
 
+.location__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .location__photo figcaption {
   padding: 0.6rem 0.75rem;
   font-size: 0.82rem;
   color: var(--ink-dim);
   border-top: 1px solid var(--border);
+}
+
+.location__loading,
+.location__empty {
+  grid-column: 1 / -1;
+  color: var(--ink-dim);
+  font-size: 0.95rem;
 }
 
 .location__back {

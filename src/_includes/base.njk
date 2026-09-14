@@ -27,5 +27,16 @@
     <p>{{ site.title }} — {{ site.tagline }}.</p>
     <p class="site-footer__note">Locations are described in general terms only. Please don't ask for exact addresses or coordinates — it protects the sites and the people who explore them.</p>
   </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    window.SUPABASE_CONFIG = {
+      url: "{{ site.supabase.url }}",
+      anonKey: "{{ site.supabase.anonKey }}",
+      bucket: "{{ site.supabase.bucket }}"
+    };
+    window.supabaseClient = supabase.createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG.anonKey);
+  </script>
+  <script src="/js/gallery.js"></script>
 </body>
 </html>

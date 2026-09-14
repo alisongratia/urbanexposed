@@ -2,7 +2,7 @@
 layout: base.njk
 ---
 <article class="location">
-  <div class="location__hero" style="background-image: url('{{ coverImage }}');">
+  <div class="location__hero" data-hero>
     <div class="location__hero-scrim">
       <p class="location__eyebrow">{{ type }} &middot; {{ region }}</p>
       <h1 class="location__title">{{ title }}</h1>
@@ -16,13 +16,8 @@ layout: base.njk
   </div>
   {% endif %}
 
-  <div class="location__gallery">
-    {% for img in images %}
-    <figure class="location__photo">
-      <img src="{{ img.src or img }}" alt="{{ img.caption or (title + ' — photo ' + loop.index) }}" loading="lazy">
-      {% if img.caption %}<figcaption>{{ img.caption }}</figcaption>{% endif %}
-    </figure>
-    {% endfor %}
+  <div class="location__gallery" data-gallery="{{ page.fileSlug }}">
+    <p class="location__loading">Loading photos&hellip;</p>
   </div>
 
   <p class="location__back"><a href="/">&larr; Back to all locations</a></p>

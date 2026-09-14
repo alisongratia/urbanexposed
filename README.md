@@ -1,12 +1,19 @@
 # Urban Exposed
 
-A photo archive of abandoned places, built as a static site with [Eleventy](https://www.11ty.dev/).
+A photo archive of abandoned places, built as a static site with [Eleventy](https://www.11ty.dev/). Photos are not stored in this repo — they live in Supabase Storage and are fetched live by the browser, so dropping photos in shows them on the site immediately with no rebuild or redeploy needed.
 
-## Adding a new location
+## Adding photos to an existing location
 
-1. Add your photos to `src/img/locations/<your-place-slug>/`.
-2. Create a new file `src/locations/<your-place-slug>.md`, copying an
-   existing entry as a template:
+1. Open the [Supabase dashboard](https://supabase.com/dashboard) for this project → **Storage** → the `locations` bucket.
+2. Open (or create) the folder matching that location's slug — the same name as its file in `src/locations/`, e.g. `forest-haven` for `src/locations/forest-haven.md`.
+3. Drag your photos in. Any filenames work; they're sorted alphabetically on the page.
+
+That's it — refresh the site and the photos appear. The first photo (alphabetically) becomes that location's cover image on the home page and hero banner.
+
+## Adding a brand-new location
+
+1. In the Supabase `locations` bucket, create a new folder named with your place's slug (lowercase, hyphenated — e.g. `hillcrest-drive-in`) and drop photos into it.
+2. Create a new file `src/locations/<your-place-slug>.md` (the filename must match the Supabase folder name), copying an existing entry as a template:
 
    ```md
    ---
@@ -15,40 +22,31 @@ A photo archive of abandoned places, built as a static site with [Eleventy](http
    type: "Hospital / Factory / House / etc."
    region: "General area only — no addresses or coordinates"
    dateExplored: 2024-01-01
-   coverImage: /img/locations/your-place-slug/01.jpg
-   images:
-     - src: /img/locations/your-place-slug/01.jpg
-       caption: "Optional note on this specific photo — what room, what stood out."
-     - /img/locations/your-place-slug/02.jpg
    blurb: |
      <p>Optional writeup — history, condition, how the visit went.</p>
    ---
    ```
 
-   Each entry under `images` can be a plain path (no caption) or an object
-   with `src` and `caption` — use captions as a running field log per photo
-   as you sort through a shoot.
+3. Push that file to GitHub (on the `locations` folder you already dropped in, no code change needed there). The new location shows up on the home page automatically, newest first.
 
-3. That's it — the new location shows up on the home page automatically,
-   newest first.
+The three entries already in `src/locations/` (Forest Haven, Hollow Creek Asylum, Bellwether Steel Mill) are starting points — Forest Haven has real field notes and is waiting on real photos; Hollow Creek and Bellwether are fully placeholder text. Delete or rewrite them once you've added your own.
 
-The three entries already in `src/locations/` (Forest Haven, Hollow Creek
-Asylum, Bellwether Steel Mill) are starting points. Forest Haven has real
-field notes but placeholder images — see below. Hollow Creek and Bellwether
-are fully placeholder; delete or replace them once you've added your own.
+## Supabase setup
 
-### Swapping in real photos for Forest Haven
+This site expects:
 
-`src/locations/forest-haven.md` is already set up with captions describing
-five photos from that visit, pointing at placeholder images
-(`src/img/locations/forest-haven/01.svg` … `05.svg`). To finish it:
+- A **Storage bucket named `locations`**, set to **Public**.
+- One folder per location inside it, matching each location's `src/locations/<slug>.md` filename.
+- A read policy on `storage.objects` for the `anon` role so the site can list files (marking a bucket "Public" alone allows fetching a known file URL, but listing a folder's contents needs an explicit policy). In the SQL editor:
 
-1. Add the real photos to `src/img/locations/forest-haven/` (any filenames).
-2. Update the `coverImage` and each `images[].src` in `forest-haven.md` to
-   point at the new filenames, and swap the `.svg` placeholders for the real
-   `.jpg`/`.png` files (delete the old placeholders once replaced).
-3. Fill in the real `dateExplored` (currently a placeholder) and edit the
-   blurb/captions as you like — they're a first draft.
+  ```sql
+  create policy "Public read locations bucket"
+  on storage.objects for select
+  to anon
+  using ( bucket_id = 'locations' );
+  ```
+
+The project URL and anon/publishable key are already wired into `src/_data/site.json`. That key is meant to be public (it's the "publishable" key, not `service_role`) — safe to be visible in the site's client-side code.
 
 ## Local development
 
