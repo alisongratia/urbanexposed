@@ -4,6 +4,7 @@ title: "Forest Haven"
 type: "Institution"
 region: "Suburban Maryland"
 dateExplored: 2024-01-01
+coverImage: "coverphoto.jpeg"
 blurb: |
   <p>Forest Haven was a residential institution, closed for decades and left
   to decay — long, dark corridors, collapsed ceilings, and room after room
