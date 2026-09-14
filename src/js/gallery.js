@@ -124,6 +124,10 @@ async function renderCardThumbnails() {
   );
 }
 
+document.addEventListener("contextmenu", (e) => {
+  if (e.target.tagName === "IMG") e.preventDefault();
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   renderLocationGallery();
   renderCardThumbnails();
