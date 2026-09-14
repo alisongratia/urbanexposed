@@ -21,6 +21,51 @@ async function fetchLocationImages(slug) {
     });
 }
 
+function buildLightbox() {
+  let lightbox = document.querySelector(".lightbox");
+  if (lightbox) return lightbox;
+
+  lightbox = document.createElement("div");
+  lightbox.className = "lightbox";
+  lightbox.hidden = true;
+  lightbox.innerHTML = `
+    <button class="lightbox__close" aria-label="Close">&times;</button>
+    <div class="lightbox__scroll"></div>
+  `;
+  document.body.appendChild(lightbox);
+
+  lightbox.querySelector(".lightbox__close").addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeLightbox();
+  });
+
+  return lightbox;
+}
+
+function openLightbox(images, startIndex) {
+  const lightbox = buildLightbox();
+  const scrollEl = lightbox.querySelector(".lightbox__scroll");
+  scrollEl.innerHTML = images
+    .map((img, i) => `<img src="${img.url}" alt="" loading="lazy" data-lightbox-index="${i}">`)
+    .join("");
+
+  lightbox.hidden = false;
+  document.body.style.overflow = "hidden";
+
+  const target = scrollEl.querySelector(`[data-lightbox-index="${startIndex}"]`);
+  if (target) target.scrollIntoView({ block: "start" });
+}
+
+function closeLightbox() {
+  const lightbox = document.querySelector(".lightbox");
+  if (!lightbox) return;
+  lightbox.hidden = true;
+  document.body.style.overflow = "";
+}
+
 async function renderLocationGallery() {
   const gallery = document.querySelector("[data-gallery]");
   if (!gallery) return;
@@ -40,14 +85,20 @@ async function renderLocationGallery() {
 
   gallery.innerHTML = images
     .map(
-      (img) => `
+      (img, i) => `
       <figure class="location__photo">
-        <a href="${img.url}" target="_blank" rel="noopener">
+        <button class="location__photo-btn" type="button" data-index="${i}" aria-label="View photo larger">
           <img src="${img.url}" alt="${slug} photo" loading="lazy">
-        </a>
+        </button>
       </figure>`
     )
     .join("");
+
+  gallery.querySelectorAll(".location__photo-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      openLightbox(images, Number(btn.dataset.index));
+    });
+  });
 }
 
 async function renderCardThumbnails() {
