@@ -1,7 +1,7 @@
 {
   "title": "Urban Exposed",
   "tagline": "A photo archive of abandoned places",
-  "description": "Photos and field notes from abandoned places explored and documented. Locations are kept intentionally vague to protect the sites.",
+  "description": "A personal archive of abandoned places — photos and field notes from wherever the day's exploring led.",
   "supabase": {
     "url": "https://uupdhdyxlppntfxmmwct.supabase.co",
     "anonKey": "sb_publishable_L25cBrz92G46Q8r9SiUlsg_l8xJ4CyB",
