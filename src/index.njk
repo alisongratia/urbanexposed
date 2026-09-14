@@ -13,7 +13,7 @@ title: null
     <div class="card__image" data-card-slug="{{ location.fileSlug }}"></div>
     <div class="card__body">
       <h2 class="card__title">{{ location.data.title }}</h2>
-      <p class="card__meta">{{ location.data.type }} &middot; {{ location.data.region }}</p>
+      <p class="card__meta">{{ location.data.type }}{% if location.data.demolished %} &middot; {{ location.data.region }} &middot; Demolished{% endif %}</p>
     </div>
   </a>
   {% endfor %}
