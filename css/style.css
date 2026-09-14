@@ -19,14 +19,6 @@
   --w317-steel-dark:    #3d3830;
   --w317-line:          rgba(246,239,226,0.14);
 
-  /* -- Odin's Underground (nightlife) accent palette, used via .theme-odins -- */
-  --odins-bg:           #0d0812;
-  --odins-bg-2:         #160c1f;
-  --odins-violet:       #8b2fc9;
-  --odins-magenta:      #d43ea8;
-  --odins-teal:         #2de0c2;
-  --odins-text:         #f2e9f8;
-
   /* -- Type -- */
   --font-display: 'Bebas Neue', 'Oswald', sans-serif;
   --font-heading: 'Oswald', sans-serif;
@@ -373,31 +365,6 @@ p{ margin:0 0 1em; }
   font-family:var(--font-heading); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase;
   padding:6px 12px; border-radius:20px; background: rgba(235,163,60,0.16); color:var(--w317-brick-dark);
 }
-
-/* -------------------------------------------------------------------------
-   Odin's Underground theme override
-   ------------------------------------------------------------------------- */
-.theme-odins{ background: var(--odins-bg); color: var(--odins-text); }
-.theme-odins .site-header{ background: rgba(13,8,18,0.92); border-bottom-color: rgba(242,233,248,0.1); }
-.theme-odins .nav-links a{ color: rgba(242,233,248,0.75); }
-.theme-odins .nav-links a:hover, .theme-odins .nav-links a.active{ color: var(--odins-teal); border-color: var(--odins-teal); }
-.theme-odins .brand{ color: var(--odins-text); }
-.theme-odins .eyebrow{ color: var(--odins-teal); }
-.theme-odins .eyebrow::before{ background: var(--odins-teal); }
-.theme-odins .display-xl, .theme-odins .display-lg{
-  background: linear-gradient(90deg, var(--odins-magenta), var(--odins-violet) 55%, var(--odins-teal));
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-}
-.theme-odins .lede{ color: rgba(242,233,248,0.7); }
-.theme-odins .card{ background: var(--odins-bg-2); border-color: rgba(242,233,248,0.1); }
-.theme-odins .card p{ color: rgba(242,233,248,0.6); }
-.theme-odins .card .tag{ color: var(--odins-teal); background: rgba(45,224,194,0.12); }
-.theme-odins .btn-primary{ background: linear-gradient(90deg, var(--odins-magenta), var(--odins-violet)); box-shadow:none; }
-.theme-odins .btn-primary:hover{ box-shadow: 0 0 24px rgba(212,62,168,0.45); }
-.theme-odins .btn-outline{ color: var(--odins-text); }
-.theme-odins .pill{ background: rgba(45,224,194,0.14); color: var(--odins-teal); }
-.theme-odins .section-head h2, .theme-odins h2, .theme-odins h3{ color: var(--odins-text); }
-.theme-odins .site-footer{ background:#08050c; }
 
 /* -------------------------------------------------------------------------
    Utility

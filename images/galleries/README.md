@@ -5,7 +5,6 @@ image files directly into the matching folder using GitHub's web UI
 (Add file → Upload files) — no code changes needed to add a photo.
 
 - `home/` — main UrbanExposed page (index.html)
-- `odins-underground/` — Odin's Underground page
 - `events/` — Events page
 - `rentals/` — Rentals page
 - `team/` — Team page
