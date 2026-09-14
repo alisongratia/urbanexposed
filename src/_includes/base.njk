@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% if title %}{{ title }} — {% endif %}{{ site.title }}</title>
   <meta name="description" content="{{ description or site.description }}">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="{{ '/css/style.css' | url }}">
 </head>
 <body>
   <header class="site-header">
-    <a class="site-brand" href="/">
+    <a class="site-brand" href="{{ '/' | url }}">
       <span class="site-brand__mark">▲</span>
       <span class="site-brand__text">{{ site.title }}</span>
     </a>
     <nav class="site-nav">
-      <a href="/">Locations</a>
-      <a href="/about/">About</a>
+      <a href="{{ '/' | url }}">Locations</a>
+      <a href="{{ '/about/' | url }}">About</a>
     </nav>
   </header>
 
@@ -37,6 +37,6 @@
     };
     window.supabaseClient = supabase.createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG.anonKey);
   </script>
-  <script src="/js/gallery.js"></script>
+  <script src="{{ '/js/gallery.js' | url }}"></script>
 </body>
 </html>
