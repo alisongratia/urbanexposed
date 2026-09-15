@@ -5,6 +5,7 @@ type: "Iron Mine"
 region: "Blue Ridge Mountains, Virginia"
 dateExplored: 2024-06-01
 demolished: false
+coverImage: "coverphoto.jpeg"
 blurb: |
   <p>Spec — named for the specular hematite ore buried in the mountainside
   — was opened around 1920 by the Pulaski Iron Company, which built a
