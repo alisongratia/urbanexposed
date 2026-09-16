@@ -147,6 +147,40 @@ async function renderCardThumbnails() {
   );
 }
 
+function initSubscribeForm() {
+  const form = document.querySelector("[data-subscribe-form]");
+  if (!form) return;
+
+  const status = document.querySelector("[data-subscribe-status]");
+  const button = form.querySelector("button");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = form.email.value.trim();
+    if (!email) return;
+
+    button.disabled = true;
+    status.hidden = true;
+
+    const { error } = await window.supabaseClient
+      .from("subscribers")
+      .insert({ email });
+
+    button.disabled = false;
+    status.hidden = false;
+
+    if (error) {
+      status.textContent =
+        error.code === "23505"
+          ? "You're already on the list."
+          : "Something went wrong — try again.";
+    } else {
+      status.textContent = "You're in. Thanks for following along.";
+      form.reset();
+    }
+  });
+}
+
 document.addEventListener("contextmenu", (e) => {
   if (e.target.tagName === "IMG") e.preventDefault();
 });
@@ -154,4 +188,5 @@ document.addEventListener("contextmenu", (e) => {
 document.addEventListener("DOMContentLoaded", () => {
   renderLocationGallery();
   renderCardThumbnails();
+  initSubscribeForm();
 });

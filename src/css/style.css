@@ -86,6 +86,67 @@ img { max-width: 100%; display: block; }
   padding: 2.5rem clamp(1rem, 4vw, 3rem) 4rem;
 }
 
+.subscribe {
+  border-top: 1px solid var(--border);
+  padding: 3.5rem clamp(1rem, 4vw, 3rem) 4.5rem;
+  text-align: center;
+}
+
+.subscribe__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  margin: 0 0 0.5rem;
+}
+
+.subscribe__note {
+  color: var(--ink-dim);
+  margin: 0 0 1.5rem;
+}
+
+.subscribe__form {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.subscribe__form input {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.75rem 1rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.subscribe__form input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.subscribe__form button {
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  border: none;
+  border-radius: 4px;
+  color: var(--bg);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.subscribe__form button:hover { opacity: 0.9; }
+.subscribe__form button:disabled { opacity: 0.6; cursor: default; }
+
+.subscribe__status {
+  margin: 1rem 0 0;
+  color: var(--ink-dim);
+  font-size: 0.9rem;
+}
+
 .card {
   display: block;
   background: var(--bg-raised);

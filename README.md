@@ -56,6 +56,8 @@ This site expects:
 
 The project URL and anon/publishable key are already wired into `src/_data/site.json`. That key is meant to be public (it's the "publishable" key, not `service_role`) — safe to be visible in the site's client-side code.
 
+Email subscribers (home page signup form) are stored in a `subscribers` table (`email`, `created_at`), insert-only for anonymous visitors — there's no read policy, so the list isn't publicly readable, only visible to you via the Supabase dashboard. Export it from there (Table Editor → subscribers → Export) whenever you're ready to actually email people.
+
 ## Local development
 
 ```bash
