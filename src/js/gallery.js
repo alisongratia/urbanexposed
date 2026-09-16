@@ -38,33 +38,62 @@ function buildLightbox() {
   lightbox.hidden = true;
   lightbox.innerHTML = `
     <button class="lightbox__close" aria-label="Close">&times;</button>
-    <div class="lightbox__scroll"></div>
+    <div class="lightbox__track"></div>
+    <div class="lightbox__nav">
+      <button class="lightbox__prev" aria-label="Previous photo">&larr;</button>
+      <span class="lightbox__count"></span>
+      <button class="lightbox__next" aria-label="Next photo">&rarr;</button>
+    </div>
   `;
   document.body.appendChild(lightbox);
 
   lightbox.querySelector(".lightbox__close").addEventListener("click", closeLightbox);
+  lightbox.querySelector(".lightbox__prev").addEventListener("click", () => lightboxStep(-1));
+  lightbox.querySelector(".lightbox__next").addEventListener("click", () => lightboxStep(1));
   lightbox.addEventListener("click", (e) => {
     if (e.target === lightbox) closeLightbox();
   });
   document.addEventListener("keydown", (e) => {
+    if (lightbox.hidden) return;
     if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowRight") lightboxStep(1);
+    if (e.key === "ArrowLeft") lightboxStep(-1);
   });
+
+  const track = lightbox.querySelector(".lightbox__track");
+  track.addEventListener("scroll", () => updateLightboxCount(), { passive: true });
 
   return lightbox;
 }
 
+function lightboxStep(delta) {
+  const lightbox = document.querySelector(".lightbox");
+  const track = lightbox.querySelector(".lightbox__track");
+  track.scrollBy({ left: delta * track.clientWidth, behavior: "smooth" });
+}
+
+function updateLightboxCount() {
+  const lightbox = document.querySelector(".lightbox");
+  if (!lightbox) return;
+  const track = lightbox.querySelector(".lightbox__track");
+  const count = lightbox.querySelector(".lightbox__count");
+  const total = track.children.length;
+  const index = Math.round(track.scrollLeft / track.clientWidth);
+  count.textContent = `${Math.min(index + 1, total)} / ${total}`;
+}
+
 function openLightbox(images, startIndex) {
   const lightbox = buildLightbox();
-  const scrollEl = lightbox.querySelector(".lightbox__scroll");
-  scrollEl.innerHTML = images
-    .map((img, i) => `<img src="${img.url}" alt="" loading="lazy" draggable="false" data-lightbox-index="${i}">`)
+  const track = lightbox.querySelector(".lightbox__track");
+  track.innerHTML = images
+    .map((img) => `<img src="${img.url}" alt="" loading="lazy" draggable="false">`)
     .join("");
 
   lightbox.hidden = false;
   document.body.style.overflow = "hidden";
 
-  const target = scrollEl.querySelector(`[data-lightbox-index="${startIndex}"]`);
-  if (target) target.scrollIntoView({ block: "start" });
+  track.scrollLeft = startIndex * track.clientWidth;
+  updateLightboxCount();
 }
 
 function closeLightbox() {
