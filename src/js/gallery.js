@@ -108,6 +108,8 @@ async function renderLocationGallery() {
   if (!gallery) return;
 
   const slug = gallery.dataset.gallery;
+  maybeShowSubscribePrompt(slug);
+
   const images = await fetchLocationImages(slug);
 
   if (images.length === 0) {
@@ -147,6 +149,10 @@ async function renderCardThumbnails() {
   );
 }
 
+async function subscribeEmail(email) {
+  return window.supabaseClient.from("subscribers").insert({ email });
+}
+
 function initSubscribeForm() {
   const form = document.querySelector("[data-subscribe-form]");
   if (!form) return;
@@ -162,9 +168,7 @@ function initSubscribeForm() {
     button.disabled = true;
     status.hidden = true;
 
-    const { error } = await window.supabaseClient
-      .from("subscribers")
-      .insert({ email });
+    const { error } = await subscribeEmail(email);
 
     button.disabled = false;
     status.hidden = false;
@@ -179,6 +183,105 @@ function initSubscribeForm() {
       form.reset();
     }
   });
+}
+
+// --- Engagement-triggered subscribe prompt (location pages only) ---
+
+function getSeenLocations() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem("ue_seen_locations") || "[]"));
+  } catch {
+    return new Set();
+  }
+}
+
+function markLocationSeen(slug) {
+  try {
+    const seen = getSeenLocations();
+    seen.add(slug);
+    localStorage.setItem("ue_seen_locations", JSON.stringify([...seen]));
+  } catch {
+    // localStorage unavailable (private browsing, etc.) — skip silently
+  }
+}
+
+function subscribePromptHandled() {
+  try {
+    return localStorage.getItem("ue_subscribe_prompt_done") === "1";
+  } catch {
+    return false;
+  }
+}
+
+function markSubscribePromptHandled() {
+  try {
+    localStorage.setItem("ue_subscribe_prompt_done", "1");
+  } catch {
+    // ignore
+  }
+}
+
+function showSubscribeToast() {
+  const toast = document.createElement("div");
+  toast.className = "subscribe-toast";
+  toast.innerHTML = `
+    <button class="subscribe-toast__close" type="button" aria-label="Dismiss">&times;</button>
+    <p class="subscribe-toast__text">Enjoying the tour? Get new locations in your inbox.</p>
+    <form class="subscribe-toast__form">
+      <input type="email" placeholder="you@example.com" required aria-label="Email address">
+      <button type="submit">Subscribe</button>
+    </form>
+    <p class="subscribe-toast__status" hidden></p>
+  `;
+  document.body.appendChild(toast);
+
+  const dismiss = () => {
+    markSubscribePromptHandled();
+    toast.classList.remove("subscribe-toast--visible");
+    setTimeout(() => toast.remove(), 300);
+  };
+
+  toast.querySelector(".subscribe-toast__close").addEventListener("click", dismiss);
+
+  const form = toast.querySelector(".subscribe-toast__form");
+  const status = toast.querySelector(".subscribe-toast__status");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = form.querySelector("input").value.trim();
+    if (!email) return;
+
+    const button = form.querySelector("button");
+    button.disabled = true;
+    const { error } = await subscribeEmail(email);
+    button.disabled = false;
+    status.hidden = false;
+
+    if (error) {
+      status.textContent =
+        error.code === "23505"
+          ? "You're already on the list."
+          : "Something went wrong — try again.";
+    } else {
+      status.textContent = "You're in. Thanks for following along.";
+      form.hidden = true;
+      markSubscribePromptHandled();
+      setTimeout(dismiss, 2500);
+    }
+  });
+
+  requestAnimationFrame(() => toast.classList.add("subscribe-toast--visible"));
+}
+
+function maybeShowSubscribePrompt(slug) {
+  if (subscribePromptHandled()) return;
+
+  const seenBefore = getSeenLocations();
+  markLocationSeen(slug);
+
+  const hasSeenAnotherLocation = [...seenBefore].some((s) => s !== slug);
+  if (hasSeenAnotherLocation) {
+    setTimeout(showSubscribeToast, 1500);
+  }
 }
 
 document.addEventListener("contextmenu", (e) => {
