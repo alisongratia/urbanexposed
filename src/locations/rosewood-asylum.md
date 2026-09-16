@@ -5,6 +5,7 @@ type: "Asylum"
 region: "Central Maryland"
 dateExplored: 2024-09-10
 demolished: false
+coverImage: "coverphoto.jpeg"
 blurb: |
   <p>Rosewood opened in 1888 as the Asylum and Training School for the
   Feeble-Minded, later renamed Rosewood State Training School, Rosewood
