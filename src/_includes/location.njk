@@ -2,11 +2,9 @@
 layout: base.njk
 ---
 <article class="location">
-  <div class="location__hero" data-hero data-cover="{{ coverImage or '' }}">
-    <div class="location__hero-scrim">
-      <p class="location__eyebrow">{{ type }}{% if demolished %} &middot; {{ region }} &middot; <span class="location__demolished">Demolished</span>{% endif %}</p>
-      <h1 class="location__title">{{ title }}</h1>
-    </div>
+  <div class="location__header">
+    <p class="location__eyebrow">{{ type }}{% if demolished %} &middot; {{ region }} &middot; <span class="location__demolished">Demolished</span>{% endif %}</p>
+    <h1 class="location__title">{{ title }}</h1>
   </div>
 
   {% if blurb %}

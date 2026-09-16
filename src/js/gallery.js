@@ -80,16 +80,10 @@ async function renderLocationGallery() {
 
   const slug = gallery.dataset.gallery;
   const images = await fetchLocationImages(slug);
-  const hero = document.querySelector("[data-hero]");
 
   if (images.length === 0) {
     gallery.innerHTML = `<p class="location__empty">No photos yet — drop some into the <code>${slug}</code> folder in the Supabase <code>locations</code> bucket.</p>`;
     return;
-  }
-
-  if (hero) {
-    const cover = pickCover(images, hero.dataset.cover);
-    hero.style.backgroundImage = `url('${cover.url}')`;
   }
 
   gallery.innerHTML = images

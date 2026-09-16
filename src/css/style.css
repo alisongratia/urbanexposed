@@ -123,20 +123,8 @@ img { max-width: 100%; display: block; }
 }
 
 /* Location detail page */
-.location__hero {
-  height: min(70vh, 34rem);
-  background-size: cover;
-  background-position: center;
-  background-color: #1a1815;
-  display: flex;
-  align-items: flex-end;
-  position: relative;
-}
-
-.location__hero-scrim {
-  width: 100%;
-  padding: 3rem clamp(1rem, 4vw, 3rem) 2rem;
-  background: linear-gradient(180deg, rgba(11,11,10,0) 0%, rgba(11,11,10,0.85) 75%, rgba(11,11,10,1) 100%);
+.location__header {
+  padding: 3.5rem clamp(1rem, 4vw, 3rem) 1.5rem;
 }
 
 .location__eyebrow {
