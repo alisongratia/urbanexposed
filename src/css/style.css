@@ -124,7 +124,9 @@ img { max-width: 100%; display: block; }
 
 /* Location detail page */
 .location__header {
-  padding: 3.5rem clamp(1rem, 4vw, 3rem) 1.5rem;
+  padding: 3.5rem clamp(1rem, 4vw, 3rem) 2rem;
+  background: linear-gradient(180deg, var(--bg-raised) 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
 }
 
 .location__eyebrow {
@@ -143,6 +145,7 @@ img { max-width: 100%; display: block; }
   font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 3rem);
   margin: 0 0 0.4rem;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.55);
 }
 
 .location__date {
