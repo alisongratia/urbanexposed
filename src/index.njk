@@ -7,16 +7,11 @@ title: null
   <p>{{ site.description }}</p>
 </section>
 
-<section class="grid">
+<section class="mosaic" data-mosaic>
   {% for location in collections.locations %}
-  <a class="card" href="{{ location.url | url }}">
-    <div class="card__image" data-card-slug="{{ location.fileSlug }}" data-cover="{{ location.data.coverImage or '' }}"></div>
-    <div class="card__body">
-      <h2 class="card__title">{{ location.data.title }}</h2>
-      <p class="card__meta">{{ location.data.type }}{% if location.data.demolished %} &middot; {{ location.data.region }} &middot; Demolished{% endif %}</p>
-    </div>
-  </a>
+  <span data-mosaic-slug="{{ location.fileSlug }}" data-mosaic-href="{{ location.url | url }}" hidden></span>
   {% endfor %}
+  <p class="location__loading">Loading photos&hellip;</p>
 </section>
 
 <section class="subscribe">

@@ -1,0 +1,21 @@
+---
+layout: base.njk
+title: Locations
+description: Every documented location, newest first.
+---
+<section class="hero hero--compact">
+  <h1>Locations</h1>
+  <p>Every place, newest first.</p>
+</section>
+
+<section class="grid">
+  {% for location in collections.locations %}
+  <a class="card" href="{{ location.url | url }}">
+    <div class="card__image" data-card-slug="{{ location.fileSlug }}" data-cover="{{ location.data.coverImage or '' }}"></div>
+    <div class="card__body">
+      <h2 class="card__title">{{ location.data.title }}</h2>
+      <p class="card__meta">{{ location.data.type }}{% if location.data.demolished %} &middot; {{ location.data.region }} &middot; Demolished{% endif %}</p>
+    </div>
+  </a>
+  {% endfor %}
+</section>

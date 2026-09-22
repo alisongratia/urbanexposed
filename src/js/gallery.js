@@ -272,6 +272,53 @@ function showSubscribeToast() {
   requestAnimationFrame(() => toast.classList.add("subscribe-toast--visible"));
 }
 
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+async function renderHomeMosaic() {
+  const mosaic = document.querySelector("[data-mosaic]");
+  if (!mosaic) return;
+
+  const entries = Array.from(mosaic.querySelectorAll("[data-mosaic-slug]"));
+  const loading = mosaic.querySelector(".location__loading");
+
+  const perLocation = await Promise.all(
+    entries.map(async (entry) => {
+      const slug = entry.dataset.mosaicSlug;
+      const href = entry.dataset.mosaicHref;
+      const images = await fetchLocationImages(slug);
+      return shuffle(images)
+        .slice(0, 3)
+        .map((img) => ({ href, url: img.url }));
+    })
+  );
+
+  const tiles = shuffle(perLocation.flat());
+
+  if (loading) loading.remove();
+  entries.forEach((entry) => entry.remove());
+
+  if (tiles.length === 0) {
+    mosaic.innerHTML = `<p class="location__empty">No photos yet.</p>`;
+    return;
+  }
+
+  mosaic.innerHTML = tiles
+    .map(
+      (tile) => `
+      <a class="mosaic__tile" href="${tile.href}">
+        <img src="${tile.url}" alt="" loading="lazy" draggable="false">
+      </a>`
+    )
+    .join("");
+}
+
 function maybeShowSubscribePrompt(slug) {
   if (subscribePromptHandled()) return;
 
@@ -291,5 +338,6 @@ document.addEventListener("contextmenu", (e) => {
 document.addEventListener("DOMContentLoaded", () => {
   renderLocationGallery();
   renderCardThumbnails();
+  renderHomeMosaic();
   initSubscribeForm();
 });
