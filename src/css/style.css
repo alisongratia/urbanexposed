@@ -388,8 +388,6 @@ img { max-width: 100%; display: block; }
 
 .card {
   display: block;
-  background: var(--bg-raised);
-  overflow: hidden;
   transition: transform 0.25s ease;
 }
 
@@ -410,7 +408,7 @@ img { max-width: 100%; display: block; }
   filter: grayscale(0.12) contrast(1.1) brightness(0.88) hue-rotate(-6deg);
 }
 
-.card__body { padding: 1rem 0.1rem 1.3rem; }
+.card__body { padding: 1rem 0 1.3rem; }
 
 .card__title {
   font-family: var(--font-display);
