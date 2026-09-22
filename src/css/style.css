@@ -1,10 +1,10 @@
 :root {
-  --bg: #0a0a09;
-  --bg-raised: #141310;
-  --ink: #e2ddd1;
-  --ink-dim: #948a78;
+  --bg: #211d18;
+  --bg-raised: #2c2721;
+  --ink: #ece6d8;
+  --ink-dim: #a99b84;
   --accent: #c8712f;
-  --border: #221f1a;
+  --border: #3c352c;
   --font-display: "Michroma", "Georgia", "Times New Roman", serif;
   --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
