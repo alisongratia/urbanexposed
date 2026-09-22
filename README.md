@@ -37,10 +37,11 @@ Set `demolished: true` once a place has actually been torn down — that's the o
 
 By default, the cover photo (used as the hero banner and the home page card thumbnail) is just whichever uploaded file sorts first alphabetically. Set `coverImage` to a specific filename (e.g. `"IMG_5892.jpeg"`, matching a file already uploaded in that location's Supabase folder) to pin a specific photo as the cover instead.
 
-The home page's mixed photo mosaic normally shows 3 random photos per location. Two ways to hand-pick favorites instead:
+The home page's mixed photo mosaic normally shows 3 random photos per location. A few ways to hand-pick favorites instead, in priority order:
 
-- **Easiest:** in Supabase, rename any photo (in any location's folder) to include the word "favorite" anywhere in the filename — e.g. `IMG_5892.jpeg` → `favorite-IMG_5892.jpeg`. It'll show up in the mosaic automatically, no other changes needed. A location can have as many "favorite"-named photos as you want.
-- **Alternative:** add a `featuredPhotos` list of filenames to that location's frontmatter (only used if no "favorite"-named photos exist for that location):
+- **Easiest:** in Supabase, create a `favorites` subfolder inside that location's folder (e.g. `forest-haven/favorites/`) and drop copies — or move originals — of your favorite photos into it. They still show up in that location's own gallery like normal, and are also pulled into the home mosaic. No filenames to remember, no code involved.
+- **Alternative:** rename any photo (in any location's folder) to include the word "favorite" anywhere in the filename — e.g. `IMG_5892.jpeg` → `favorite-IMG_5892.jpeg`. Only used if that location has no `favorites` subfolder.
+- **Alternative:** add a `featuredPhotos` list of filenames to that location's frontmatter (only used if the two options above are empty for that location):
 
   ```md
   featuredPhotos:
