@@ -15,9 +15,10 @@ async function listFolderImages(bucket, path) {
     // skip those (and dotfiles) so only real files come through.
     .filter((file) => file.name && file.id !== null && !file.name.startsWith("."))
     .map((file) => {
+      const fullPath = path ? `${path}/${file.name}` : file.name;
       const { data: pub } = window.supabaseClient.storage
         .from(bucket)
-        .getPublicUrl(`${path}/${file.name}`);
+        .getPublicUrl(fullPath);
       return { name: file.name, url: pub.publicUrl };
     });
 }
@@ -35,6 +36,16 @@ async function fetchFavoriteImages(slug) {
   const { favoritesBucket } = window.SUPABASE_CONFIG;
   if (!favoritesBucket) return [];
   return listFolderImages(favoritesBucket, slug);
+}
+
+// Photos dropped straight into the root of "Favorites for Showcase"
+// (not sorted into a per-location folder) — an unsorted pool for the
+// home mosaic that links back to the locations listing, not one place.
+async function fetchUnsortedFavorites() {
+  if (!window.supabaseClient) return [];
+  const { favoritesBucket } = window.SUPABASE_CONFIG;
+  if (!favoritesBucket) return [];
+  return listFolderImages(favoritesBucket, "");
 }
 
 function pickCover(images, coverFilename) {
@@ -303,41 +314,46 @@ async function renderHomeMosaic() {
 
   const entries = Array.from(mosaic.querySelectorAll("[data-mosaic-slug]"));
   const loading = mosaic.querySelector(".location__loading");
+  const unsortedHref = mosaic.dataset.mosaicUnsortedHref;
 
-  const perLocation = await Promise.all(
-    entries.map(async (entry) => {
-      const slug = entry.dataset.mosaicSlug;
-      const href = entry.dataset.mosaicHref;
-      const [images, byFavoritesBucket] = await Promise.all([
-        fetchLocationImages(slug),
-        fetchFavoriteImages(slug),
-      ]);
+  const [perLocation, unsorted] = await Promise.all([
+    Promise.all(
+      entries.map(async (entry) => {
+        const slug = entry.dataset.mosaicSlug;
+        const href = entry.dataset.mosaicHref;
+        const [images, byFavoritesBucket] = await Promise.all([
+          fetchLocationImages(slug),
+          fetchFavoriteImages(slug),
+        ]);
 
-      const byFilenameFlag = images.filter((img) =>
-        img.name.toLowerCase().includes("favorite")
-      );
+        const byFilenameFlag = images.filter((img) =>
+          img.name.toLowerCase().includes("favorite")
+        );
 
-      const featuredNames = (entry.dataset.mosaicFeatured || "")
-        .split(",")
-        .map((n) => n.trim())
-        .filter(Boolean);
-      const byFrontmatter = featuredNames
-        .map((name) => images.find((img) => img.name === name))
-        .filter(Boolean);
+        const featuredNames = (entry.dataset.mosaicFeatured || "")
+          .split(",")
+          .map((n) => n.trim())
+          .filter(Boolean);
+        const byFrontmatter = featuredNames
+          .map((name) => images.find((img) => img.name === name))
+          .filter(Boolean);
 
-      const chosen = byFavoritesBucket.length
-        ? byFavoritesBucket
-        : byFilenameFlag.length
-        ? byFilenameFlag
-        : byFrontmatter.length
-        ? byFrontmatter
-        : shuffle(images).slice(0, 3);
+        const chosen = byFavoritesBucket.length
+          ? byFavoritesBucket
+          : byFilenameFlag.length
+          ? byFilenameFlag
+          : byFrontmatter.length
+          ? byFrontmatter
+          : shuffle(images).slice(0, 3);
 
-      return chosen.map((img) => ({ href, url: img.url }));
-    })
-  );
+        return chosen.map((img) => ({ href, url: img.url }));
+      })
+    ),
+    fetchUnsortedFavorites(),
+  ]);
 
-  const tiles = shuffle(perLocation.flat());
+  const unsortedTiles = unsorted.map((img) => ({ href: unsortedHref, url: img.url }));
+  const tiles = shuffle([...perLocation.flat(), ...unsortedTiles]);
 
   if (loading) loading.remove();
   entries.forEach((entry) => entry.remove());

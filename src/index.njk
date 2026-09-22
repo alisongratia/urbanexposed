@@ -7,13 +7,6 @@ title: null
   <h1 class="hero__statement">{{ site.description }}</h1>
 </section>
 
-<section class="mosaic" data-mosaic>
-  {% for location in collections.locations %}
-  <span data-mosaic-slug="{{ location.fileSlug }}" data-mosaic-href="{{ location.url | url }}" data-mosaic-featured="{{ (location.data.featuredPhotos or []) | join(',') }}" hidden></span>
-  {% endfor %}
-  <p class="location__loading">Loading photos&hellip;</p>
-</section>
-
 <section class="subscribe">
   <h2 class="subscribe__title">Follow along</h2>
   <p class="subscribe__note">New locations, sent when there's something worth showing.</p>
