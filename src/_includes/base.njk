@@ -37,7 +37,8 @@
     window.SUPABASE_CONFIG = {
       url: "{{ site.supabase.url }}",
       anonKey: "{{ site.supabase.anonKey }}",
-      bucket: "{{ site.supabase.bucket }}"
+      bucket: "{{ site.supabase.bucket }}",
+      favoritesBucket: "{{ site.supabase.favoritesBucket }}"
     };
     window.supabaseClient = supabase.createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG.anonKey);
   </script>

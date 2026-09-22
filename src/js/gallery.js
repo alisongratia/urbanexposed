@@ -1,9 +1,9 @@
 // Pulls location photos live from Supabase Storage at page-load time.
 // Drop photos into the `locations/<slug>/` folder in Supabase and they show
-// up here on next page view — no rebuild needed.
+// up here on next page view — no rebuild needed. Home page mosaic picks
+// are pulled separately from the "Favorites for Showcase" bucket.
 
-async function listFolderImages(path) {
-  const { bucket } = window.SUPABASE_CONFIG;
+async function listFolderImages(bucket, path) {
   const { data, error } = await window.supabaseClient.storage
     .from(bucket)
     .list(path, { sortBy: { column: "name", order: "asc" } });
@@ -24,20 +24,17 @@ async function listFolderImages(path) {
 
 async function fetchLocationImages(slug) {
   if (!window.supabaseClient) return [];
+  const { bucket } = window.SUPABASE_CONFIG;
+  return listFolderImages(bucket, slug);
+}
 
-  const [images, favorites] = await Promise.all([
-    listFolderImages(slug),
-    listFolderImages(`${slug}/favorites`),
-  ]);
-
-  const favoriteNames = new Set(favorites.map((img) => img.name));
-
-  return [
-    ...images.map((img) => ({ ...img, favorite: favoriteNames.has(img.name) })),
-    ...favorites
-      .filter((img) => !images.some((base) => base.name === img.name))
-      .map((img) => ({ ...img, favorite: true })),
-  ];
+// Pulls hand-picked home page mosaic photos for a location from the
+// separate "Favorites for Showcase" bucket, folder per location slug.
+async function fetchFavoriteImages(slug) {
+  if (!window.supabaseClient) return [];
+  const { favoritesBucket } = window.SUPABASE_CONFIG;
+  if (!favoritesBucket) return [];
+  return listFolderImages(favoritesBucket, slug);
 }
 
 function pickCover(images, coverFilename) {
@@ -311,9 +308,10 @@ async function renderHomeMosaic() {
     entries.map(async (entry) => {
       const slug = entry.dataset.mosaicSlug;
       const href = entry.dataset.mosaicHref;
-      const images = await fetchLocationImages(slug);
-
-      const byFavoritesFolder = images.filter((img) => img.favorite);
+      const [images, byFavoritesBucket] = await Promise.all([
+        fetchLocationImages(slug),
+        fetchFavoriteImages(slug),
+      ]);
 
       const byFilenameFlag = images.filter((img) =>
         img.name.toLowerCase().includes("favorite")
@@ -327,8 +325,8 @@ async function renderHomeMosaic() {
         .map((name) => images.find((img) => img.name === name))
         .filter(Boolean);
 
-      const chosen = byFavoritesFolder.length
-        ? byFavoritesFolder
+      const chosen = byFavoritesBucket.length
+        ? byFavoritesBucket
         : byFilenameFlag.length
         ? byFilenameFlag
         : byFrontmatter.length

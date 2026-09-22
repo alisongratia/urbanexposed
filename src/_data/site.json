@@ -5,6 +5,7 @@
   "supabase": {
     "url": "https://uupdhdyxlppntfxmmwct.supabase.co",
     "anonKey": "sb_publishable_L25cBrz92G46Q8r9SiUlsg_l8xJ4CyB",
-    "bucket": "locations"
+    "bucket": "locations",
+    "favoritesBucket": "Favorites for Showcase"
   }
 }

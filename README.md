@@ -39,8 +39,8 @@ By default, the cover photo (used as the hero banner and the home page card thum
 
 The home page's mixed photo mosaic normally shows 3 random photos per location. A few ways to hand-pick favorites instead, in priority order:
 
-- **Easiest:** in Supabase, create a `favorites` subfolder inside that location's folder (e.g. `forest-haven/favorites/`) and drop copies — or move originals — of your favorite photos into it. They still show up in that location's own gallery like normal, and are also pulled into the home mosaic. No filenames to remember, no code involved.
-- **Alternative:** rename any photo (in any location's folder) to include the word "favorite" anywhere in the filename — e.g. `IMG_5892.jpeg` → `favorite-IMG_5892.jpeg`. Only used if that location has no `favorites` subfolder.
+- **Easiest:** in Supabase, open the separate **`Favorites for Showcase`** bucket (not `locations`) and create a folder there matching that location's slug — e.g. `forest-haven/` — then drop copies of your favorite photos into it. This bucket is just for curating the home mosaic; it doesn't affect that location's own gallery page at all (those photos still come from the `locations` bucket as normal). No filenames to remember, no code involved.
+- **Alternative:** rename any photo (in any location's folder inside `locations`) to include the word "favorite" anywhere in the filename — e.g. `IMG_5892.jpeg` → `favorite-IMG_5892.jpeg`. Only used if that location has no matching folder in `Favorites for Showcase`.
 - **Alternative:** add a `featuredPhotos` list of filenames to that location's frontmatter (only used if the two options above are empty for that location):
 
   ```md
@@ -57,13 +57,19 @@ This site expects:
 
 - A **Storage bucket named `locations`**, set to **Public**.
 - One folder per location inside it, matching each location's `src/locations/<slug>.md` filename.
-- A read policy on `storage.objects` for the `anon` role so the site can list files (marking a bucket "Public" alone allows fetching a known file URL, but listing a folder's contents needs an explicit policy). In the SQL editor:
+- A second **Storage bucket named `Favorites for Showcase`**, set to **Public**, used only for curating the home page mosaic (see above) — folders inside it also match location slugs, but its contents never show on a location's own gallery page.
+- A read policy on `storage.objects` for the `anon` role, for **both** buckets, so the site can list files (marking a bucket "Public" alone allows fetching a known file URL, but listing a folder's contents needs an explicit policy). In the SQL editor:
 
   ```sql
   create policy "Public read locations bucket"
   on storage.objects for select
   to anon
   using ( bucket_id = 'locations' );
+
+  create policy "Public read favorites showcase bucket"
+  on storage.objects for select
+  to anon
+  using ( bucket_id = 'Favorites for Showcase' );
   ```
 
 The project URL and anon/publishable key are already wired into `src/_data/site.json`. That key is meant to be public (it's the "publishable" key, not `service_role`) — safe to be visible in the site's client-side code.
