@@ -9,7 +9,7 @@ title: null
 
 <section class="mosaic" data-mosaic>
   {% for location in collections.locations %}
-  <span data-mosaic-slug="{{ location.fileSlug }}" data-mosaic-href="{{ location.url | url }}" hidden></span>
+  <span data-mosaic-slug="{{ location.fileSlug }}" data-mosaic-href="{{ location.url | url }}" data-mosaic-featured="{{ (location.data.featuredPhotos or []) | join(',') }}" hidden></span>
   {% endfor %}
   <p class="location__loading">Loading photos&hellip;</p>
 </section>

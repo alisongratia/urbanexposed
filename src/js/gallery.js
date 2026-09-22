@@ -293,9 +293,19 @@ async function renderHomeMosaic() {
       const slug = entry.dataset.mosaicSlug;
       const href = entry.dataset.mosaicHref;
       const images = await fetchLocationImages(slug);
-      return shuffle(images)
-        .slice(0, 3)
-        .map((img) => ({ href, url: img.url }));
+
+      const featuredNames = (entry.dataset.mosaicFeatured || "")
+        .split(",")
+        .map((n) => n.trim())
+        .filter(Boolean);
+
+      const chosen = featuredNames.length
+        ? featuredNames
+            .map((name) => images.find((img) => img.name === name))
+            .filter(Boolean)
+        : shuffle(images).slice(0, 3);
+
+      return chosen.map((img) => ({ href, url: img.url }));
     })
   );
 

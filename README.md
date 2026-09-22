@@ -37,6 +37,14 @@ Set `demolished: true` once a place has actually been torn down — that's the o
 
 By default, the cover photo (used as the hero banner and the home page card thumbnail) is just whichever uploaded file sorts first alphabetically. Set `coverImage` to a specific filename (e.g. `"IMG_5892.jpeg"`, matching a file already uploaded in that location's Supabase folder) to pin a specific photo as the cover instead.
 
+The home page's mixed photo mosaic normally shows 3 random photos per location. To hand-pick which ones show up there instead, add a `featuredPhotos` list of filenames:
+
+```md
+featuredPhotos:
+  - "IMG_5892.jpeg"
+  - "IMG_5901.jpeg"
+```
+
 The three entries already in `src/locations/` (Forest Haven, Hollow Creek Asylum, Bellwether Steel Mill) are starting points — Forest Haven has real field notes and is waiting on real photos; Hollow Creek and Bellwether are fully placeholder text. Delete or rewrite them once you've added your own.
 
 ## Supabase setup
