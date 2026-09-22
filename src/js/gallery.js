@@ -294,15 +294,22 @@ async function renderHomeMosaic() {
       const href = entry.dataset.mosaicHref;
       const images = await fetchLocationImages(slug);
 
+      const byFilenameFlag = images.filter((img) =>
+        img.name.toLowerCase().includes("favorite")
+      );
+
       const featuredNames = (entry.dataset.mosaicFeatured || "")
         .split(",")
         .map((n) => n.trim())
         .filter(Boolean);
+      const byFrontmatter = featuredNames
+        .map((name) => images.find((img) => img.name === name))
+        .filter(Boolean);
 
-      const chosen = featuredNames.length
-        ? featuredNames
-            .map((name) => images.find((img) => img.name === name))
-            .filter(Boolean)
+      const chosen = byFilenameFlag.length
+        ? byFilenameFlag
+        : byFrontmatter.length
+        ? byFrontmatter
         : shuffle(images).slice(0, 3);
 
       return chosen.map((img) => ({ href, url: img.url }));
