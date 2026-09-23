@@ -1,0 +1,722 @@
+<title>sendspoods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Figtree:wght@400;600;800&family=Gaegu:wght@400;700&display=swap">
+<style>
+:root{
+  --ground:#FFE872;
+  --ground-2:#FFF4B8;
+  --paper:#FFFDF3;
+  --ink:#2A1636;
+  --ink-soft:#5B4768;
+  --pink:#FF6FAE;
+  --leaf:#2FAE6E;
+  --sky:#7CCBFF;
+  --line:#2A1636;
+  --shadow:#2A1636;
+  --web:rgba(42,22,54,.28);
+  --display:"Bagel Fat One","Arial Rounded MT Bold","Trebuchet MS",sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --hand:"Gaegu","Comic Sans MS","Chalkboard SE",cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#1C1026;
+    --ground-2:#281838;
+    --paper:#33214A;
+    --ink:#FFF2C4;
+    --ink-soft:#CDB9DD;
+    --pink:#FF7DB7;
+    --leaf:#4FD08E;
+    --sky:#86D1FF;
+    --line:#FFF2C4;
+    --shadow:#0B0510;
+    --web:rgba(255,242,196,.22);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#1C1026;
+  --ground-2:#281838;
+  --paper:#33214A;
+  --ink:#FFF2C4;
+  --ink-soft:#CDB9DD;
+  --pink:#FF7DB7;
+  --leaf:#4FD08E;
+  --sky:#86D1FF;
+  --line:#FFF2C4;
+  --shadow:#0B0510;
+  --web:rgba(255,242,196,.22);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.55;
+  padding-inline:16px;
+  overflow-x:hidden;
+}
+.wrap{max-width:1160px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px dashed var(--pink);outline-offset:3px}
+
+/* ---------- nav ---------- */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:18px;flex-wrap:wrap}
+.logo{display:flex;align-items:flex-start;gap:4px;text-decoration:none;font-family:var(--display);font-size:30px;letter-spacing:-.5px;position:relative}
+.logo .dot{color:var(--pink)}
+.logo-spood{width:34px;height:64px;margin-top:-18px;transform-origin:50% 0;animation:dangle 3.2s ease-in-out infinite}
+@keyframes dangle{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.nav-links a{text-decoration:none;font-weight:600;padding:6px 12px;border-radius:999px}
+.nav-links a:hover{background:var(--ground-2)}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--display);font-size:18px;letter-spacing:.2px;
+  background:var(--pink);color:#2A1636;border:2.5px solid var(--line);
+  padding:10px 20px;border-radius:999px;cursor:pointer;text-decoration:none;
+  box-shadow:4px 4px 0 var(--shadow);transition:transform .12s, box-shadow .12s;
+}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--shadow)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadow)}
+.btn.ghost{background:var(--paper);color:var(--ink)}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;padding-block:28px 56px}
+.eyebrow{font-family:var(--hand);font-size:22px;font-weight:700;color:var(--ink-soft);display:inline-block;transform:rotate(-2deg)}
+.hero h1{font-size:clamp(52px,8vw,104px);letter-spacing:-1.5px;margin-block:10px 18px}
+.hero h1 .wiggle{color:var(--pink);display:inline-block;-webkit-text-stroke:2.5px var(--line);paint-order:stroke fill}
+.hero .lede{font-size:20px;max-width:34ch;color:var(--ink-soft)}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
+
+.dropzone{
+  position:relative;aspect-ratio:1/1;max-width:100%;width:100%;
+  border-radius:50%;background:var(--paper);border:3px solid var(--line);
+  box-shadow:10px 10px 0 var(--shadow);display:grid;place-items:center;cursor:pointer;overflow:hidden;
+  transition:transform .2s;
+}
+.dropzone:hover,.dropzone.over{transform:rotate(-3deg) scale(1.02)}
+.dropzone.over{background:var(--ground-2)}
+.dropzone canvas{position:absolute;inset:0;width:100%;height:100%}
+.dz-inner{position:relative;text-align:center;padding:24px;max-width:70%;background:var(--paper);border-radius:28px}
+.dz-inner strong{display:block;font-family:var(--display);font-weight:400;font-size:clamp(22px,3vw,30px);line-height:1.05}
+.dz-inner span{font-family:var(--hand);font-size:20px;color:var(--ink-soft)}
+.dz-spood{position:absolute;top:0;right:22%;width:54px;height:150px;transform-origin:50% 0;animation:dangle 4s ease-in-out infinite reverse}
+.dropzone input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
+/* ---------- counter strip ---------- */
+.strip{background:var(--ink);color:var(--ground);border-radius:22px;padding:18px 24px;display:flex;flex-wrap:wrap;justify-content:space-around;gap:14px 28px;text-align:center}
+.strip div{display:flex;flex-direction:column}
+.strip b{font-family:var(--display);font-weight:400;font-size:34px;font-variant-numeric:tabular-nums;line-height:1}
+.strip span{font-family:var(--hand);font-size:19px;opacity:.85}
+
+/* ---------- section heads ---------- */
+section{padding-block:64px 8px}
+.shead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+.shead h2{font-size:clamp(38px,5vw,58px)}
+.shead p{font-family:var(--hand);font-size:21px;color:var(--ink-soft)}
+
+/* ---------- spood of the day ---------- */
+.sotd{display:grid;grid-template-columns:1fr 1.1fr;gap:0;background:var(--paper);border:3px solid var(--line);border-radius:30px;overflow:hidden;box-shadow:10px 10px 0 var(--shadow)}
+.sotd-art{background:var(--sky);position:relative;min-height:340px;display:grid;place-items:center;border-right:3px solid var(--line)}
+.sotd-art svg,.sotd-art img{width:78%;height:auto;max-height:420px;object-fit:cover}
+.sotd-art img{width:100%;height:100%;max-height:none;position:absolute;inset:0}
+.crown{position:absolute;top:16px;left:16px;background:var(--ground);border:2.5px solid var(--line);border-radius:999px;padding:4px 14px;font-family:var(--display);font-size:16px;transform:rotate(-6deg);z-index:1}
+.sotd-body{padding:34px 34px 30px;display:flex;flex-direction:column;gap:16px}
+.sotd-body h3{font-size:clamp(34px,4vw,48px)}
+.latin{font-style:italic;color:var(--ink-soft);font-size:17px}
+.quote{font-family:var(--hand);font-size:24px;line-height:1.25;border-left:4px solid var(--pink);padding-left:14px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0}
+.facts div{background:var(--ground-2);border-radius:16px;padding:10px 12px}
+.facts dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)}
+.facts dd{margin:0;font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
+.legs{display:inline-flex;gap:3px;vertical-align:middle}
+.legs i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--line);display:block}
+.legs i.on{background:var(--leaf)}
+
+/* ---------- gallery ---------- */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:2px solid var(--line);background:var(--paper);padding:5px 14px;border-radius:999px;font-weight:600;cursor:pointer;font-size:15px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--ground)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:34px 26px;padding-top:8px}
+.card{
+  background:var(--paper);border:2.5px solid var(--line);border-radius:10px;padding:12px 12px 14px;
+  box-shadow:5px 5px 0 var(--shadow);transform:rotate(var(--tilt,0deg));transition:transform .2s;
+  display:flex;flex-direction:column;gap:10px;position:relative;
+}
+.card:hover{transform:rotate(0) translateY(-4px)}
+.card .pic{aspect-ratio:1/1;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center;overflow:hidden;background:var(--bg,var(--sky))}
+.card .pic svg{width:86%;height:86%}
+.card .pic img{width:100%;height:100%;object-fit:cover}
+.card .pic{position:relative}
+.swap{position:absolute;top:8px;right:8px;border:2px solid #2A1636;background:#FFFDF3;color:#2A1636;border-radius:999px;font-size:13px;font-weight:800;padding:2px 10px;cursor:pointer}
+.swap:hover{background:#FFE872}
+.slot-note{position:absolute;bottom:8px;left:8px;right:8px;text-align:center;background:rgba(255,253,243,.9);color:#2A1636;border-radius:999px;font-family:var(--hand);font-size:16px;font-weight:700;padding:2px 8px}
+.card .tape{position:absolute;top:-12px;left:50%;width:74px;height:22px;margin-left:-37px;background:var(--pink);opacity:.8;transform:rotate(-4deg);border-radius:2px}
+.card h4{margin:0;font-family:var(--hand);font-size:26px;line-height:1;font-weight:700}
+.card .sp{font-size:14px;color:var(--ink-soft);line-height:1.3}
+.card .row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px}
+.boop{border:2px solid var(--line);background:var(--ground-2);border-radius:999px;padding:3px 12px;cursor:pointer;font-weight:800;font-variant-numeric:tabular-nums;font-size:14px}
+.boop:hover{background:var(--pink);color:#2A1636}
+.card.booped .pic svg{animation:boing .5s}
+@keyframes boing{30%{transform:scale(1.12,.9)}60%{transform:scale(.94,1.08)}100%{transform:none}}
+.new-sticker{position:absolute;top:-14px;right:-10px;background:var(--leaf);color:#fff;font-family:var(--display);font-size:15px;border:2.5px solid var(--line);border-radius:999px;padding:3px 11px;transform:rotate(8deg);z-index:1}
+
+/* ---------- hall of legs ---------- */
+.hall{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.award{border:2.5px solid var(--line);border-radius:22px;padding:20px;background:var(--ground-2);display:flex;gap:14px;align-items:center}
+.award .medal{flex:none;width:64px;height:64px;border-radius:50%;border:2.5px solid var(--line);display:grid;place-items:center;background:var(--bg)}
+.award .medal svg{width:52px;height:52px}
+.award small{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)}
+.award b{font-family:var(--display);font-weight:400;font-size:22px;line-height:1.1;display:block}
+.award span{font-family:var(--hand);font-size:18px}
+
+/* ---------- nav cart ---------- */
+.cart{display:inline-flex;align-items:center;gap:4px}
+.cart b{background:var(--ink);color:var(--ground);border-radius:999px;min-width:22px;height:22px;display:grid;place-items:center;font-size:13px;padding-inline:6px;font-variant-numeric:tabular-nums}
+.cart.bump b{animation:boing .45s}
+
+/* ---------- shop ---------- */
+.shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px}
+.item{background:var(--paper);border:2.5px solid var(--line);border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
+.item .shot{aspect-ratio:5/4;background:var(--bg);display:grid;place-items:center;border-bottom:2.5px solid var(--line);position:relative}
+.item .shot svg{width:72%;height:82%}
+.item .tag{position:absolute;top:12px;right:12px;background:var(--ground);color:#2A1636;border:2px solid #2A1636;border-radius:999px;padding:2px 10px;font-family:var(--hand);font-weight:700;font-size:17px;transform:rotate(5deg)}
+.item .info{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.item h4{margin:0;font-family:var(--display);font-weight:400;font-size:22px;line-height:1.1}
+.item p{font-size:15px;color:var(--ink-soft)}
+.item .buy{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:6px}
+.item .price{font-family:var(--display);font-size:24px;font-variant-numeric:tabular-nums}
+.item .btn{font-size:15px;padding:7px 14px;box-shadow:3px 3px 0 var(--shadow)}
+
+/* ---------- send form ---------- */
+.send{display:grid;grid-template-columns:1fr 1.2fr;gap:36px;background:var(--pink);border:3px solid var(--line);border-radius:30px;padding:36px;box-shadow:10px 10px 0 var(--shadow);color:#2A1636}
+.send h2{font-size:clamp(40px,5vw,62px)}
+.send .pitch{display:flex;flex-direction:column;gap:14px}
+.send .pitch p{font-size:18px}
+.send .pitch ul{margin:0;padding-left:0;list-style:none;font-family:var(--hand);font-size:21px;line-height:1.3}
+.send .pitch li::before{content:"✳ ";}
+form{display:grid;gap:14px;background:#FFFDF3;border:2.5px solid #2A1636;border-radius:20px;padding:22px}
+form label{font-weight:800;font-size:14px;display:grid;gap:5px}
+form input[type=text],form select{border:2px solid #2A1636;border-radius:12px;padding:10px 12px;background:#fff;color:#2A1636;width:100%}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vibes{display:flex;gap:8px;flex-wrap:wrap;border:0;padding:0;margin:0}
+.vibes legend{font-weight:800;font-size:14px;margin-bottom:6px;padding:0}
+.vibes label{display:inline-flex;font-weight:600;cursor:pointer}
+.vibes input{position:absolute;opacity:0}
+.vibes span{border:2px solid #2A1636;border-radius:999px;padding:4px 12px;background:#fff;color:#2A1636}
+.vibes input:checked + span{background:#2A1636;color:#FFE872}
+.vibes input:focus-visible + span{outline:3px dashed #2A1636;outline-offset:2px}
+.filepick{border:2px dashed #2A1636;border-radius:12px;padding:12px;text-align:center;cursor:pointer;font-family:var(--hand);font-size:20px;background:#FFF4B8;color:#2A1636}
+.filepick input{position:absolute;opacity:0;width:1px;height:1px}
+form .btn{justify-self:start;background:#2A1636;color:#FFE872;border-color:#2A1636;box-shadow:4px 4px 0 #FF6FAE}
+
+/* ---------- spood code / footer ---------- */
+.code{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.code div{padding-top:12px;border-top:3px dotted var(--line)}
+.code b{font-family:var(--display);font-weight:400;font-size:22px;display:block;margin-bottom:4px}
+.code p{color:var(--ink-soft);font-size:16px}
+footer{padding-block:60px 40px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--hand);font-size:19px;color:var(--ink-soft)}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,140%);background:var(--ink);color:var(--ground);padding:12px 20px;border-radius:999px;font-weight:700;transition:transform .3s;z-index:9;max-width:calc(100% - 32px);text-align:center}
+.toast.show{transform:translate(-50%,0)}
+
+@media (max-width:860px){
+  .hero,.sotd,.send{grid-template-columns:1fr}
+  .dropzone{max-width:420px;margin-inline:auto}
+  .sotd-art{border-right:0;border-bottom:3px solid var(--line)}
+  .send{padding:22px}
+}
+@media (max-width:480px){
+  .nav-links a:not(.btn){display:none}
+  .facts{grid-template-columns:1fr 1fr}
+  .two{grid-template-columns:1fr}
+  .hero h1 .wiggle{-webkit-text-stroke:1.5px var(--line)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+<div class="wrap">
+  <nav class="nav" aria-label="Main">
+    <a class="logo" href="#top" aria-label="sendspoods home">send<span class="dot">spoods</span>
+      <svg class="logo-spood" viewBox="0 0 34 64" aria-hidden="true"></svg>
+    </a>
+    <div class="nav-links">
+      <a href="#gallery">Gallery</a>
+      <a href="#sotd">Spood of the Day</a>
+      <a href="#hall">Hall of Legs</a>
+      <a href="#shop">Shop</a>
+      <a class="cart" href="#shop" aria-label="Cart"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 4h2l2.4 11h11L21 7H6.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="19.5" r="1.6" fill="currentColor"/><circle cx="17" cy="19.5" r="1.6" fill="currentColor"/></svg><b id="cartCount">0</b></a>
+      <a class="btn" href="#send">Send a spood</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div>
+      <span class="eyebrow">a wholesome web for eight-legged friends</span>
+      <h1>Show us your <span class="wiggle">glorious</span> spoods.</h1>
+      <p class="lede">Snap the little guy in your windowsill, name them something dignified, and let the internet tell them they’re beautiful. Because they are.</p>
+      <div class="hero-cta">
+        <a class="btn" href="#send">Send a spood</a>
+        <label class="btn ghost" for="dzFile">Choose spood photos</label>
+      </div>
+    </div>
+    <label class="dropzone" id="dz" for="dzFile">
+      <canvas id="web" aria-hidden="true"></canvas>
+      <svg class="dz-spood" viewBox="0 0 54 150" aria-hidden="true"></svg>
+      <div class="dz-inner">
+        <strong>Drop a spood photo here</strong>
+        <span>or tap to choose · or paste with Ctrl/⌘+V</span>
+      </div>
+      <input type="file" id="dzFile" accept="image/*" multiple>
+      <input type="file" id="slotFile" accept="image/*" hidden>
+    </label>
+  </header>
+
+  <div class="strip" aria-label="Site stats">
+    <div><b id="stSpoods">12,408</b><span>spoods sent</span></div>
+    <div><b id="stLegs">99,264</b><span>legs counted</span></div>
+    <div><b id="stBoops">318,770</b><span>boops given</span></div>
+    <div><b>0</b><span>spoods squished</span></div>
+  </div>
+
+  <section id="sotd">
+    <div class="shead">
+      <h2>Spood of the Day</h2>
+      <p>chosen by a panel of very serious judges</p>
+    </div>
+    <article class="sotd">
+      <div class="sotd-art" id="sotdArt">
+        <span class="crown">★ Today’s Champion</span>
+      </div>
+      <div class="sotd-body">
+        <div>
+          <h3>Mama Legs &amp; the Forty Kids</h3>
+          <p class="latin">Wolf spider · family <i>Lycosidae</i> · carrying the whole brood</p>
+        </div>
+        <p class="quote">“Spotted her in the grass giving roughly forty babies a piggyback ride. She did not ask for help. She is a legend.”</p>
+        <dl class="facts">
+          <div><dt>Passengers</dt><dd>~40</dd></div>
+          <div><dt>Eyes</dt><dd>8 (+320)</dd></div>
+          <div><dt>Boops</dt><dd>4,812</dd></div>
+        </dl>
+        <p style="font-size:15px;color:var(--ink-soft)">Sent by <b>you</b>, a founding spood-sender · left in peace in the grass</p>
+      </div>
+    </article>
+  </section>
+
+  <section id="gallery">
+    <div class="shead">
+      <h2>Fresh spoods</h2>
+      <div class="chips" role="group" aria-label="Filter spoods">
+        <button class="chip" aria-pressed="true" data-f="all">All spoods</button>
+        <button class="chip" aria-pressed="false" data-f="jumper">Jumpers</button>
+        <button class="chip" aria-pressed="false" data-f="fuzzy">Fuzzy bois</button>
+        <button class="chip" aria-pressed="false" data-f="orb">Orb weavers</button>
+        <button class="chip" aria-pressed="false" data-f="tiny">Tiny lads</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="hall">
+    <div class="shead">
+      <h2>Hall of Legs</h2>
+      <p>this month’s decorated spoods</p>
+    </div>
+    <div class="hall" id="hallGrid"></div>
+  </section>
+
+  <section id="shop">
+    <div class="shead">
+      <h2>The Spood Shop</h2>
+      <p>wear your spood pride · all proceeds buy more cups for catch &amp; release</p>
+    </div>
+    <div class="shop" id="shopGrid"></div>
+  </section>
+
+  <section id="send">
+    <div class="send">
+      <div class="pitch">
+        <h2>Send us your spood</h2>
+        <p>Every spood gets a name, a spot in the gallery, and a chance at the crown.</p>
+        <ul>
+          <li>photos from a respectful distance</li>
+          <li>blurry is fine, vibes matter more</li>
+          <li>no idea what species? neither do we sometimes</li>
+        </ul>
+      </div>
+      <form id="sendForm" novalidate>
+        <label class="filepick" for="formFile"><span id="fileLabel">Tap to pick a spood photo</span>
+          <input type="file" id="formFile" accept="image/*">
+        </label>
+        <div class="two">
+          <label for="spoodName">Spood’s name
+            <input type="text" id="spoodName" placeholder="Gerald" autocomplete="off">
+          </label>
+          <label for="species">Species (if known)
+            <select id="species">
+              <option value="Mystery spood">No clue, just vibes</option>
+              <option value="Jumping spider" data-f="jumper">Jumping spider</option>
+              <option value="Orb weaver" data-f="orb">Orb weaver</option>
+              <option value="Wolf spider" data-f="fuzzy">Wolf spider</option>
+              <option value="Cellar spider" data-f="tiny">Cellar spider</option>
+              <option value="Tarantula" data-f="fuzzy">Tarantula</option>
+            </select>
+          </label>
+        </div>
+        <label for="where">Where’d you find them?
+          <input type="text" id="where" placeholder="on the bathroom ceiling, judging me" autocomplete="off">
+        </label>
+        <fieldset class="vibes">
+          <legend>Vibe check</legend>
+          <label><input type="checkbox" id="v1" name="vibe" value="fuzzy" checked><span>fuzzy</span></label>
+          <label><input type="checkbox" id="v2" name="vibe" value="majestic"><span>majestic</span></label>
+          <label><input type="checkbox" id="v3" name="vibe" value="smol"><span>smol</span></label>
+          <label><input type="checkbox" id="v4" name="vibe" value="menacing (lovingly)"><span>menacing (lovingly)</span></label>
+          <label><input type="checkbox" id="v5" name="vibe" value="derpy"><span>derpy</span></label>
+        </fieldset>
+        <button class="btn" type="submit">Send this spood</button>
+      </form>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead"><h2>The Spood Code</h2></div>
+    <div class="code">
+      <div><b>No squishing</b><p>Cup and paper, then outside. Every spood here is a free spood.</p></div>
+      <div><b>Mind the fangs</b><p>Zoom in, don’t reach in. Some spoods prefer to stay unbooped in real life.</p></div>
+      <div><b>Be nice</b><p>Compliment the legs. All eight of them. Arachnophobes welcome — we blur on request.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>sendspoods.com · made with love and approximately 8 legs</span>
+    <span>mockup — photos you drop stay in your browser</span>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  // ---------- spood drawing ----------
+  var INK = function(){ return getComputedStyle(document.documentElement).getPropertyValue('--line').trim() || '#2A1636'; };
+  function spoodSVG(o){
+    o = o || {};
+    var body=o.body||'#2A1636', accent=o.accent||'#FF6FAE', fuzz=o.fuzz, jumper=o.jumper!==false, thread=o.thread;
+    var s='';
+    if(thread) s+='<line x1="100" y1="0" x2="100" y2="70" stroke="'+body+'" stroke-width="2"/>';
+    // legs
+    var legs=[[-30,-18,-70,-50,-86,-20],[-32,-6,-78,-14,-94,16],[-30,6,-74,22,-86,56],[-24,14,-56,46,-62,82]];
+    legs.forEach(function(l){
+      [1,-1].forEach(function(d){
+        s+='<path d="M100 112 Q'+(100+d*l[0]*1.6)+' '+(112+l[1]*1.4)+' '+(100+d*l[2])+' '+(112+l[3])+' T'+(100+d*l[4])+' '+(112+l[5])+'" fill="none" stroke="'+body+'" stroke-width="7" stroke-linecap="round"'+(fuzz?' stroke-dasharray="2 3"':'')+'/>';
+        if(fuzz) s+='<path d="M100 112 Q'+(100+d*l[0]*1.6)+' '+(112+l[1]*1.4)+' '+(100+d*l[2])+' '+(112+l[3])+' T'+(100+d*l[4])+' '+(112+l[5])+'" fill="none" stroke="'+body+'" stroke-width="4" stroke-linecap="round"/>';
+      });
+    });
+    // abdomen + head
+    s+='<ellipse cx="100" cy="146" rx="34" ry="30" fill="'+body+'"/>';
+    s+='<path d="M84 140 Q100 132 116 140 M86 154 Q100 146 114 154" stroke="'+accent+'" stroke-width="5" fill="none" stroke-linecap="round"/>';
+    s+='<circle cx="100" cy="100" r="32" fill="'+body+'"'+(fuzz?' stroke="'+body+'" stroke-width="6" stroke-dasharray="3 3"':'')+'/>';
+    // eyes
+    if(jumper){
+      s+='<circle cx="87" cy="100" r="12" fill="#fff"/><circle cx="113" cy="100" r="12" fill="#fff"/>';
+      s+='<circle cx="89" cy="102" r="7" fill="#1a0d22"/><circle cx="115" cy="102" r="7" fill="#1a0d22"/>';
+      s+='<circle cx="91" cy="99" r="2.6" fill="#fff"/><circle cx="117" cy="99" r="2.6" fill="#fff"/>';
+      s+='<circle cx="70" cy="92" r="4" fill="#fff"/><circle cx="130" cy="92" r="4" fill="#fff"/>';
+    } else {
+      [[88,96],[112,96],[80,88],[120,88],[94,86],[106,86]].forEach(function(e,i){
+        s+='<circle cx="'+e[0]+'" cy="'+e[1]+'" r="'+(i<2?7:4)+'" fill="#fff"/><circle cx="'+(e[0]+1)+'" cy="'+(e[1]+1)+'" r="'+(i<2?3.5:2)+'" fill="#1a0d22"/>';
+      });
+    }
+    // little smile + chelicerae blush
+    s+='<path d="M92 118 Q100 124 108 118" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>';
+    s+='<circle cx="76" cy="114" r="5" fill="'+accent+'" opacity=".8"/><circle cx="124" cy="114" r="5" fill="'+accent+'" opacity=".8"/>';
+    return '<svg viewBox="0 '+(thread?0:40)+' 200 '+(thread?190:150)+'" role="img" aria-label="Cartoon spider placeholder">'+s+'</svg>';
+  }
+  function tinySpood(el, h){
+    var c=INK();
+    el.innerHTML='<line x1="'+(el.viewBox.baseVal.width/2)+'" y1="0" x2="'+(el.viewBox.baseVal.width/2)+'" y2="'+(h-24)+'" stroke="'+c+'" stroke-width="1.5"/>'+
+      '<g transform="translate('+(el.viewBox.baseVal.width/2-17)+','+(h-34)+') scale(.17)">'+spoodSVG({body:c,accent:'#FF6FAE'}).replace(/^<svg[^>]*>|<\/svg>$/g,'')+'</g>';
+  }
+  function paintDecor(){
+    tinySpood(document.querySelector('.logo-spood'),64);
+    tinySpood(document.querySelector('.dz-spood'),150);
+  }
+
+  // ---------- web canvas ----------
+  var cv=document.getElementById('web');
+  function drawWeb(){
+    var r=cv.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+    cv.width=r.width*dpr; cv.height=r.height*dpr;
+    var ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
+    var cx=r.width/2, cy=r.height/2, R=r.width/2, spokes=14;
+    ctx.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue('--web').trim();
+    ctx.lineWidth=1.4;
+    for(var i=0;i<spokes;i++){var a=i/spokes*Math.PI*2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R);ctx.stroke();}
+    for(var k=1;k<=11;k++){
+      var rr=R*k/11.5; ctx.beginPath();
+      for(var j=0;j<=spokes;j++){
+        var a1=j/spokes*Math.PI*2, a0=(j-1)/spokes*Math.PI*2;
+        var x=cx+Math.cos(a1)*rr, y=cy+Math.sin(a1)*rr;
+        if(j===0) ctx.moveTo(x,y); else {var am=(a0+a1)/2; ctx.quadraticCurveTo(cx+Math.cos(am)*rr*.9,cy+Math.sin(am)*rr*.9,x,y);}
+      }
+      ctx.stroke();
+    }
+  }
+
+  // ---------- data ----------
+  var palettes=[
+    {bg:'#7CCBFF',body:'#2A1636',accent:'#FF6FAE'},
+    {bg:'#FF9FCB',body:'#3B1F12',accent:'#FFE872'},
+    {bg:'#9BE3B9',body:'#1E2A3A',accent:'#FF6FAE'},
+    {bg:'#FFD66B',body:'#4A2A1A',accent:'#7CCBFF'},
+    {bg:'#C9B6FF',body:'#2A1636',accent:'#FFE872'},
+    {bg:'#FFB38A',body:'#2B2B2B',accent:'#2FAE6E'}
+  ];
+  var spoods=[
+    {name:'Mama Legs',sp:'Wolf spider + ~40 babies',where:'in the grass, on a school run',f:'fuzzy',legs:8,boops:4812,p:3,fuzz:true,jumper:false,slot:'mama'},
+    {name:'Queen Stripes',sp:'Yellow garden spider',where:'in her web, wrapping lunch',f:'orb',legs:8,boops:3377,p:2,jumper:false,slot:'queen'},
+    {name:'Peaches',sp:'Jumping spider',where:'on a leaf, being a bean',f:'jumper tiny',legs:8,boops:2941,p:1,jumper:true,slot:'peaches'},
+    {name:'Gerald',sp:'Bold jumping spider',where:'bathroom ceiling, judging me',f:'jumper',legs:8,boops:1204,p:0,jumper:true},
+    {name:'Beans',sp:'Wolf spider',where:'garage, very fast',f:'fuzzy',legs:8,boops:873,p:3,fuzz:true,jumper:false},
+    {name:'Lady Charlotte',sp:'Marbled orb weaver',where:'porch light, every night',f:'orb',legs:8,boops:2210,p:1,jumper:false},
+    {name:'Lil Pepper',sp:'Zebra jumping spider',where:'on my laptop, mid-meeting',f:'tiny jumper',legs:8,boops:661,p:2,jumper:true},
+    {name:'Big Doug',sp:'Mexican red-knee tarantula',where:'his tank (his name is Doug)',f:'fuzzy',legs:8,boops:3150,p:5,fuzz:true,jumper:false},
+    {name:'Noodle',sp:'Cellar spider',where:'corner of the basement',f:'tiny',legs:7,boops:402,p:4,jumper:false},
+    {name:'Professor Fuzz',sp:'Tan jumping spider',where:'the fence post, lecturing',f:'jumper fuzzy',legs:8,boops:1588,p:3,fuzz:true,jumper:true},
+    {name:'Stitch',sp:'Garden orb weaver',where:'between two sunflowers',f:'orb',legs:8,boops:977,p:2,jumper:false}
+  ];
+  var tilts=['-2.5deg','1.8deg','-1deg','2.6deg','-1.8deg','1deg','-2.2deg','2deg'];
+  var grid=document.getElementById('grid');
+  var currentFilter='all';
+
+  function legDots(n){var s='<span class="legs" aria-label="'+n+' of 8 legs visible">';for(var i=0;i<8;i++)s+='<i class="'+(i<n?'on':'')+'"></i>';return s+'</span>';}
+  function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+
+  function cardHTML(s,i){
+    var pal=palettes[s.p%palettes.length];
+    var pic=s.img?'<img src="'+s.img+'" alt="Photo of '+esc(s.name)+'">':spoodSVG({body:pal.body,accent:pal.accent,fuzz:s.fuzz,jumper:s.jumper});
+    return '<article class="card" data-f="'+s.f+'" style="--tilt:'+tilts[i%tilts.length]+';--bg:'+pal.bg+'">'+
+      (s.fresh?'<span class="new-sticker">fresh!</span>':'<span class="tape" aria-hidden="true"></span>')+
+      '<div class="pic">'+pic+'</div>'+
+      '<h4>'+esc(s.name)+'</h4>'+
+      '<p class="sp">'+esc(s.sp)+' · found '+esc(s.where)+'</p>'+
+      '<div class="row">'+legDots(s.legs)+'<button class="boop" type="button" aria-label="Boop '+esc(s.name)+'">boop · <span>'+s.boops.toLocaleString()+'</span></button></div>'+
+    '</article>';
+  }
+  function render(){
+    grid.innerHTML=spoods.map(cardHTML).join('');
+    applyFilter();
+  }
+  function applyFilter(){
+    grid.querySelectorAll('.card').forEach(function(c){
+      c.hidden = !(currentFilter==='all' || c.dataset.f.split(' ').indexOf(currentFilter)>-1);
+    });
+  }
+  document.querySelectorAll('.chip').forEach(function(ch){
+    ch.addEventListener('click',function(){
+      document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed','false');});
+      ch.setAttribute('aria-pressed','true'); currentFilter=ch.dataset.f; applyFilter();
+    });
+  });
+
+  var totalBoops=318770;
+  var stB=document.getElementById('stBoops');
+  stB.textContent=totalBoops.toLocaleString();
+  var slotFile=document.getElementById('slotFile'), slotTarget=null;
+  grid.addEventListener('click',function(e){
+    var sw=e.target.closest('.swap');
+    if(sw){slotTarget=sw.dataset.slot;slotFile.click();return;}
+  });
+  slotFile.addEventListener('change',function(){
+    var f=slotFile.files[0]; slotFile.value='';
+    if(!f||!slotTarget) return;
+    var rec={id:'slot-'+slotTarget,slot:slotTarget};
+    readFile(f).then(function(src){
+      var sp=applyRecord(rec,src); sp.fresh=true; render();
+      return persist(f,rec).then(function(saved){say(sp.name+' has a new photo'+(saved?' — saved for good.':' — showing in this browser only.'));});
+    });
+  });
+  grid.addEventListener('click',function(e){
+    var b=e.target.closest('.boop'); if(!b) return;
+    var card=b.closest('.card'), idx=[].indexOf.call(grid.children,card);
+    spoods[idx].boops++; b.querySelector('span').textContent=spoods[idx].boops.toLocaleString();
+    totalBoops++; stB.textContent=totalBoops.toLocaleString();
+    card.classList.remove('booped'); void card.offsetWidth; card.classList.add('booped');
+  });
+
+  // ---------- spood of the day + hall ----------
+  var sotdArt=document.getElementById('sotdArt');
+  sotdArt.style.background='#FFD66B';
+  sotdArt.insertAdjacentHTML('beforeend',spoodSVG({body:'#4A2A1A',accent:'#FFE872',jumper:false,fuzz:true,thread:true}));
+  function setSotd(src){
+    var old=sotdArt.querySelector('svg,img'); if(old) old.remove();
+    var im=new Image(); im.src=src; im.alt='Photo of Mama Legs the wolf spider'; sotdArt.appendChild(im);
+    var h=document.getElementById('sotdHint'); if(h) h.textContent='photo by you';
+  }
+
+  // ---------- shop ----------
+  var products=[
+    {n:'Spood Crew Tee',d:'Heavyweight cotton. Front: Peaches, back: "8 legs, 0 problems."',pr:28,bg:'#9BE3B9',tag:'bestseller',k:'tee'},
+    {n:'Mama Legs Mug',d:'Holds 12 oz of coffee and roughly forty spiderlings’ worth of love.',pr:18,bg:'#FFD66B',k:'mug'},
+    {n:'I Brake for Spoods',d:'Weatherproof bumper sticker, 10 × 3 in. Tell the world.',pr:5,bg:'#FF9FCB',k:'sticker'},
+    {n:'Queen Stripes Pin',d:'Hard enamel pin with a gold zigzag, just like her web.',pr:12,bg:'#7CCBFF',tag:'new',k:'pin'},
+    {n:'Peaches Plush',d:'Eight wiggly legs, two enormous eyes, fully huggable.',pr:24,bg:'#C9B6FF',tag:'so soft',k:'plush'},
+    {n:'Catch & Release Kit',d:'A clear cup, a stiff card, and a tiny certificate of rescue.',pr:9,bg:'#FFB38A',k:'kit'}
+  ];
+  function productArt(k){
+    var sp=function(t,sc,o){return '<g transform="'+t+' scale('+sc+')">'+spoodSVG(o||{}).replace(/^<svg[^>]*>|<\/svg>$/g,'')+'</g>';};
+    var L='#2A1636';
+    if(k==='tee') return '<svg viewBox="0 0 200 160"><path d="M60 14 L30 30 L12 62 L38 74 L46 60 L46 150 L154 150 L154 60 L162 74 L188 62 L170 30 L140 14 Q100 36 60 14Z" fill="#FFFDF3" stroke="'+L+'" stroke-width="4" stroke-linejoin="round"/>'+sp('translate(66,40)',.34,{body:'#1A0D22',accent:'#FF6FAE',jumper:true})+'<text x="100" y="138" text-anchor="middle" font-family="Gaegu,cursive" font-weight="700" font-size="15" fill="'+L+'">spood crew</text></svg>';
+    if(k==='mug') return '<svg viewBox="0 0 200 160"><path d="M140 52 Q178 52 176 86 Q174 118 140 116" fill="none" stroke="'+L+'" stroke-width="10"/><rect x="36" y="30" width="110" height="116" rx="12" fill="#FFFDF3" stroke="'+L+'" stroke-width="4"/>'+sp('translate(56,50)',.36,{body:'#4A2A1A',accent:'#FFE872',jumper:false,fuzz:true})+'</svg>';
+    if(k==='sticker') return '<svg viewBox="0 0 200 160"><rect x="10" y="50" width="180" height="60" rx="10" fill="#FFFDF3" stroke="'+L+'" stroke-width="4" transform="rotate(-4 100 80)"/><text x="100" y="89" text-anchor="middle" font-family="Bagel Fat One,sans-serif" font-size="19" fill="'+L+'" transform="rotate(-4 100 80)">I BRAKE FOR SPOODS</text></svg>';
+    if(k==='pin') return '<svg viewBox="0 0 200 160"><circle cx="100" cy="80" r="62" fill="#FFE872" stroke="'+L+'" stroke-width="6"/><path d="M70 40 L90 60 L70 80 L90 100 L70 120 M130 40 L110 60 L130 80 L110 100 L130 120" stroke="#fff" stroke-width="5" fill="none"/>'+sp('translate(64,48)',.36,{body:'#1A0D22',accent:'#FFE872',jumper:false})+'</svg>';
+    if(k==='plush') return '<svg viewBox="0 0 200 160">'+sp('translate(10,-20)',.9,{body:'#3B1F12',accent:'#FF9F5A',jumper:true,fuzz:true})+'</svg>';
+    return '<svg viewBox="0 0 200 160"><path d="M50 40 L150 40 L138 140 L62 140Z" fill="rgba(255,255,255,.55)" stroke="'+L+'" stroke-width="4" stroke-linejoin="round"/><rect x="40" y="30" width="120" height="12" rx="4" fill="#FFFDF3" stroke="'+L+'" stroke-width="4"/>'+sp('translate(76,76)',.24,{body:L,accent:'#FF6FAE',jumper:true})+'</svg>';
+  }
+  document.getElementById('shopGrid').innerHTML=products.map(function(p,i){
+    return '<article class="item" style="--bg:'+p.bg+'"><div class="shot">'+productArt(p.k)+(p.tag?'<span class="tag">'+p.tag+'</span>':'')+'</div><div class="info"><h4>'+p.n+'</h4><p>'+p.d+'</p><div class="buy"><span class="price">$'+p.pr+'</span><button class="btn" type="button" data-i="'+i+'">Add to cart</button></div></div></article>';
+  }).join('');
+  var cartN=0, cartEl=document.querySelector('.cart');
+  document.getElementById('shopGrid').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-i]'); if(!b) return;
+    cartN++; document.getElementById('cartCount').textContent=cartN;
+    cartEl.classList.remove('bump'); void cartEl.offsetWidth; cartEl.classList.add('bump');
+    say(products[b.dataset.i].n+' added to your cart.');
+  });
+  var awards=[
+    {t:'Fuzziest Boi',n:'Big Doug',w:'3,150 boops',p:5,fuzz:true,jumper:false},
+    {t:'Biggest Eyes',n:'Lil Pepper',w:'eyes: enormous',p:2,jumper:true},
+    {t:'Best Web',n:'Lady Charlotte',w:'rebuilt it 31 times',p:1,jumper:false},
+    {t:'Most Legs Visible',n:'Gerald',w:'a perfect 8/8',p:0,jumper:true}
+  ];
+  document.getElementById('hallGrid').innerHTML=awards.map(function(a){
+    var pal=palettes[a.p];
+    return '<div class="award"><div class="medal" style="--bg:'+pal.bg+'">'+spoodSVG({body:pal.body,accent:pal.accent,fuzz:a.fuzz,jumper:a.jumper})+'</div><div><small>'+a.t+'</small><b>'+a.n+'</b><span>'+a.w+'</span></div></div>';
+  }).join('');
+
+  // ---------- uploads ----------
+  var spoodCount=12408;
+  var funNames=['Kevin','Mothra Jr.','Sprinkles','Baron von Legs','Pickles','Tofu','Sir Scuttles','Meatball','Duchess','Tater'];
+  var toast=document.getElementById('toast'), tt;
+  function say(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('show');},2800);}
+  function bumpStats(){
+    spoodCount++;
+    document.getElementById('stSpoods').textContent=spoodCount.toLocaleString();
+    document.getElementById('stLegs').textContent=(spoodCount*8).toLocaleString();
+  }
+  // Saved photos: uploaded to the page's asset store, indexed in the "uploads" collection.
+  var store={db:null,assets:null};
+  function newId(){return 'u'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+  function readFile(file){return new Promise(function(res){var r=new FileReader();r.onload=function(){res(r.result);};r.readAsDataURL(file);});}
+  function persist(file,rec){
+    if(!store.db||!store.assets) return Promise.resolve(false);
+    return store.assets.upload(file).then(function(a){
+      return store.db.collection('uploads').doc(rec.id).set(Object.assign({},rec,{asset:a.id,at:Date.now()}));
+    }).then(function(){return true;},function(e){console.warn('save failed',e);return false;});
+  }
+  function applyRecord(rec,src){
+    if(rec.slot){
+      var slot=spoods.filter(function(x){return x.slot===rec.slot;})[0];
+      if(!slot) return null;
+      slot.img=src; slot.uid=rec.id;
+      if(rec.slot==='mama') setSotd(src);
+      return slot;
+    }
+    var have=spoods.filter(function(x){return x.uid===rec.id;})[0];
+    if(have) return have;
+    spoods.unshift({uid:rec.id,name:rec.name,sp:rec.sp||'Mystery spood',where:rec.where||'somewhere glorious',f:rec.f||'all',legs:8,boops:rec.boops||0,p:rec.p||0,img:src,fresh:true});
+    bumpStats();
+    return spoods[0];
+  }
+  function addPhotos(items){
+    // items: [{file, meta}] — fills empty featured slots first unless meta is given
+    return Promise.all(items.map(function(it){
+      var rec;
+      var open=it.meta?null:spoods.filter(function(x){return x.slot&&!x.img&&!x.claimed;})[0];
+      if(open){open.claimed=true;rec={id:'slot-'+open.slot,slot:open.slot};}
+      else rec=Object.assign({id:newId(),name:funNames[Math.floor(Math.random()*funNames.length)],sp:'Mystery spood',where:'somewhere glorious',f:'all',p:Math.floor(Math.random()*6)},it.meta||{});
+      return readFile(it.file).then(function(src){
+        var sp=applyRecord(rec,src); if(sp) sp.fresh=true;
+        return persist(it.file,rec).then(function(saved){return {sp:sp,saved:saved};});
+      });
+    }));
+  }
+  function afterAdd(results,verb){
+    currentFilter='all';
+    document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',x.dataset.f==='all'?'true':'false');});
+    render();
+    var saved=results.every(function(x){return x.saved;});
+    var who=results.length===1?results[0].sp.name+' '+verb:results.length+' spoods '+verb;
+    say(who+(saved?' — saved for good.':' — showing in this browser only.'));
+  }
+  function takeFiles(files){
+    var imgs=[].filter.call(files,function(f){return f.type.indexOf('image/')===0;});
+    if(!imgs.length){say('Save the photo to your device first, then tap “Choose spood photos”.');return;}
+    say('Adding your spood'+(imgs.length>1?'s':'')+'…');
+    addPhotos(imgs.map(function(f){return {file:f};})).then(function(res){
+      afterAdd(res,res.length===1?'is in the gallery':'are in the gallery');
+      document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+    });
+  }
+  var dz=document.getElementById('dz'), dzFile=document.getElementById('dzFile');
+  dzFile.addEventListener('change',function(){takeFiles(dzFile.files);dzFile.value='';});
+  ['dragenter','dragover'].forEach(function(ev){dz.addEventListener(ev,function(e){e.preventDefault();dz.classList.add('over');});});
+  ['dragleave','drop'].forEach(function(ev){dz.addEventListener(ev,function(e){e.preventDefault();dz.classList.remove('over');});});
+  dz.addEventListener('drop',function(e){takeFiles(e.dataTransfer.files);});
+  document.addEventListener('paste',function(e){
+    var files=[].map.call(e.clipboardData?e.clipboardData.items:[],function(it){return it.kind==='file'?it.getAsFile():null;}).filter(Boolean);
+    if(files.length){e.preventDefault();takeFiles(files);}
+  });
+
+  // ---------- form ----------
+  var formFile=document.getElementById('formFile'), fileLabel=document.getElementById('fileLabel');
+  formFile.addEventListener('change',function(){fileLabel.textContent=formFile.files[0]?'Got it: '+formFile.files[0].name:'Tap to pick a spood photo';});
+  document.getElementById('sendForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    var f=formFile.files[0];
+    if(!f){say('Pick a photo first — the spood wants to be seen.');return;}
+    var sel=document.getElementById('species'), opt=sel.options[sel.selectedIndex];
+    var name=document.getElementById('spoodName').value.trim();
+    addPhotos([{file:f,meta:{
+      name:name||funNames[Math.floor(Math.random()*funNames.length)],
+      sp:sel.value,
+      where:document.getElementById('where').value.trim()||'somewhere glorious',
+      f:opt.dataset.f||'all'
+    }}]).then(function(res){
+      e.target.reset(); fileLabel.textContent='Tap to pick a spood photo';
+      afterAdd(res,'is in the gallery');
+      document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+    });
+  });
+
+  // ---------- boot ----------
+  render(); paintDecor(); drawWeb();
+  if(false){
+    Promise.all([window.claude.use('db'),window.claude.use('assets')]).then(function(ns){
+      store.db=ns[0]; store.assets=ns[1];
+      if(!store.db) return;
+      store.db.collection('uploads').onSnapshot(function(qs){
+        var recs=qs.docs.map(function(d){return Object.assign({id:d.id},d.data());}).filter(function(x){return x.asset;});
+        recs.sort(function(a,b){return (a.at||0)-(b.at||0);});
+        recs.forEach(function(rec){applyRecord(rec,'/_blob/'+rec.asset);});
+        if(recs.length) render();
+      },function(e){console.warn('uploads feed',e);});
+    });
+  }
+  window.addEventListener('resize',drawWeb);
+  try{
+    new MutationObserver(function(){paintDecor();drawWeb();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){paintDecor();drawWeb();});
+  }catch(e){}
+})();
+</script>
